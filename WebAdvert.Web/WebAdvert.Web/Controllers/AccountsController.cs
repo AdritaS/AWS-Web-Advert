@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.AspNetCore.Identity.Cognito;
 using Amazon.Extensions.CognitoAuthentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +46,76 @@ namespace WebAdvert.Web.Controllers
                 // user.Attributes.Add(CognitoAttributeConstants.Name, model.Email);
                 if (createdUser.Succeeded)
                 {
-                    RedirectToAction("Confirm");
+                    return RedirectToAction("Confirm");
+                }
+                else
+                {
+
+                    foreach (IdentityError error in createdUser.Errors)
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
+                }
+
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> Confirm()
+        {
+            var model = new ConfirmModel();
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Confirm(ConfirmModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError("UserNotFound", "UserNotFound");
+                    return View(model);
+
+                }
+                var result = await (_userManager as CognitoUserManager<CognitoUser>).ConfirmSignUpAsync(user, model.Code, false).ConfigureAwait(false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
+                }
+            }
+
+            return View();
+
+        }
+
+        public async Task<IActionResult> Login()
+        {
+            var model = new LoginModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                        ModelState.AddModelError("LoginError", "Email and Password donot match");
                 }
             }
             return View();
