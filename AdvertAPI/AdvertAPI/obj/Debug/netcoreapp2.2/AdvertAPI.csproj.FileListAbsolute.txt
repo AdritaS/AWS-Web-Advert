@@ -1,0 +1,17 @@
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\AdvertAPI.Models.dll
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.csprojAssemblyReference.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.csproj.CoreCompileInputs.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.RazorAssemblyInfo.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.RazorAssemblyInfo.cs
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.AssemblyInfoInputs.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.AssemblyInfo.cs
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.RazorTargetAssemblyInfo.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\AdvertAPI.deps.json
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\AdvertAPI.runtimeconfig.json
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\AdvertAPI.runtimeconfig.dev.json
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\AdvertAPI.dll
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\AdvertAPI.pdb
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\AdvertAPI.Models.pdb
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.csproj.CopyComplete
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.dll
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.pdb

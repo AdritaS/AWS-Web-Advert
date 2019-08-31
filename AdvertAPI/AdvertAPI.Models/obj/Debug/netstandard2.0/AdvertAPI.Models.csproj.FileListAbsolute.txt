@@ -1,0 +1,9 @@
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI.Models\bin\Debug\netstandard2.0\AdvertAPI.Models.deps.json
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI.Models\bin\Debug\netstandard2.0\AdvertAPI.Models.dll
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI.Models\bin\Debug\netstandard2.0\AdvertAPI.Models.pdb
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI.Models\obj\Debug\netstandard2.0\AdvertAPI.Models.csprojAssemblyReference.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI.Models\obj\Debug\netstandard2.0\AdvertAPI.Models.csproj.CoreCompileInputs.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI.Models\obj\Debug\netstandard2.0\AdvertAPI.Models.AssemblyInfoInputs.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI.Models\obj\Debug\netstandard2.0\AdvertAPI.Models.AssemblyInfo.cs
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI.Models\obj\Debug\netstandard2.0\AdvertAPI.Models.dll
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI.Models\obj\Debug\netstandard2.0\AdvertAPI.Models.pdb
