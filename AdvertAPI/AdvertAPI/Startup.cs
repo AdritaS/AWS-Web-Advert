@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using AutoMapper;
 using AdvertAPI.Services;
+using AdvertAPI.HealthChecks;
 
 namespace AdvertAPI
 {
@@ -30,6 +31,11 @@ namespace AdvertAPI
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IAdvertStorageService, AdvertStorageService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddHealthChecks().AddCheck<StorageHealthCheck>("Dynamo DB Storage");
+            //services.AddHealthChecks(checks =>
+            //{
+            //    checks.AddCheck<StorageHealthCheck>("Storage", new System.TimeSpan(0, 1, 0);
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +52,7 @@ namespace AdvertAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseHealthChecks("/health");
             app.UseMvc();
         }
     }

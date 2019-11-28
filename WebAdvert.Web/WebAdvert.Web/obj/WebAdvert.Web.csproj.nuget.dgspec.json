@@ -41,6 +41,10 @@
       "frameworks": {
         "netcoreapp2.2": {
           "dependencies": {
+            "AWSSDK.S3": {
+              "target": "Package",
+              "version": "[3.3.104.20, )"
+            },
             "Amazon.AspNetCore.Identity.Cognito": {
               "target": "Package",
               "version": "[1.0.2, )"
@@ -48,6 +52,10 @@
             "Amazon.Extensions.CognitoAuthentication": {
               "target": "Package",
               "version": "[1.0.3, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )"
             },
             "Microsoft.AspNetCore.App": {
               "suppressParent": "All",
@@ -57,6 +65,14 @@
             },
             "Microsoft.AspNetCore.Razor.Design": {
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.Extensions.Http": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.Extensions.Http.Polly": {
               "target": "Package",
               "version": "[2.2.0, )"
             },

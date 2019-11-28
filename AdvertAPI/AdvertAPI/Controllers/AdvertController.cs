@@ -27,7 +27,7 @@ namespace AdvertAPI.Controllers
             {
                 recordId = await _advertStorageService.Add(model);
             }
-            catch(KeyNotFoundException keyEx)
+            catch(KeyNotFoundException)
             {
                 return new NotFoundResult();
             }

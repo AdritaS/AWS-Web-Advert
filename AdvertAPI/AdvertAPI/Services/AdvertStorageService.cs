@@ -19,7 +19,7 @@ namespace AdvertAPI.Services
         public async Task<string> Add(AdvertModel model)
         {
             var dbModel = _mapper.Map<AdvertModelDb>(model);
-            dbModel.Id = new Guid().ToString();
+            dbModel.Id = Guid.NewGuid().ToString();
             dbModel.CreationDate = DateTime.UtcNow;
             dbModel.Status = AdvertStatus.Pending;
 
@@ -31,6 +31,15 @@ namespace AdvertAPI.Services
                 }
             }
             return dbModel.Id;
+        }
+
+        public async Task<bool> CheckHealthAsync()
+        {
+            using (var client = new AmazonDynamoDBClient())
+            {
+                var tableData = await client.DescribeTableAsync("Adverts");
+                return string.Compare(tableData.Table.TableStatus, "active", true) == 0;
+            }
         }
 
         public async Task Confirm(ConfirmAdvertModel model)

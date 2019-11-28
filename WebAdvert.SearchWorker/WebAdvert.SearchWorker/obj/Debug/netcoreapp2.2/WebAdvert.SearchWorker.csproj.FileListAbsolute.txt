@@ -1,0 +1,6 @@
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\bin\Debug\netcoreapp2.2\WebAdvert.SearchWorker.deps.json
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\bin\Debug\netcoreapp2.2\WebAdvert.SearchWorker.dll
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\obj\Debug\netcoreapp2.2\WebAdvert.SearchWorker.csprojAssemblyReference.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\obj\Debug\netcoreapp2.2\WebAdvert.SearchWorker.csproj.CoreCompileInputs.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\obj\Debug\netcoreapp2.2\WebAdvert.SearchWorker.AssemblyInfoInputs.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\obj\Debug\netcoreapp2.2\WebAdvert.SearchWorker.AssemblyInfo.cs

@@ -31,3 +31,4 @@ C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.Web\WebAdvert.Web\o
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.Web\WebAdvert.Web\obj\Debug\netcoreapp2.2\Razor\Views\Accounts\SignUp.g.cshtml.cs
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.Web\WebAdvert.Web\obj\Debug\netcoreapp2.2\Razor\Views\Accounts\Confirm.g.cshtml.cs
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.Web\WebAdvert.Web\obj\Debug\netcoreapp2.2\Razor\Views\Accounts\Login.g.cshtml.cs
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.Web\WebAdvert.Web\obj\Debug\netcoreapp2.2\Razor\Views\AdvertManagement\Create.g.cshtml.cs

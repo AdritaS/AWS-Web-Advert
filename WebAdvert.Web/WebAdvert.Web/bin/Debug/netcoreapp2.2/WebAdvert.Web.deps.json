@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "b310e0aff666fa51ca1b64e33dc4993127bc9f6f"
+    "signature": "020f3168c2627e7e5310849b418ae9476ed08d0a"
   },
   "compilationOptions": {
     "defines": [
@@ -24,10 +24,14 @@
     ".NETCoreApp,Version=v2.2": {
       "WebAdvert.Web/1.0.0": {
         "dependencies": {
+          "AWSSDK.S3": "3.3.104.20",
           "Amazon.AspNetCore.Identity.Cognito": "1.0.2",
           "Amazon.Extensions.CognitoAuthentication": "1.0.3",
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": "7.0.0",
           "Microsoft.AspNetCore.App": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
+          "Microsoft.Extensions.Http": "2.2.0",
+          "Microsoft.Extensions.Http.Polly": "2.2.0",
           "Microsoft.NETCore.App": "2.2.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.3"
         },
@@ -73,9 +77,39 @@
           "lib/netstandard2.0/Amazon.Extensions.CognitoAuthentication.dll": {}
         }
       },
+      "AutoMapper/9.0.0": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0",
+          "System.Reflection.Emit": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutoMapper.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/AutoMapper.dll": {}
+        }
+      },
+      "AutoMapper.Extensions.Microsoft.DependencyInjection/7.0.0": {
+        "dependencies": {
+          "AutoMapper": "9.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.2.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "7.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
+        }
+      },
       "AWSSDK.CognitoIdentity/3.3.100": {
         "dependencies": {
-          "AWSSDK.Core": "3.3.100",
+          "AWSSDK.Core": "3.3.103.32",
           "AWSSDK.SecurityToken": "3.3.100"
         },
         "runtime": {
@@ -90,7 +124,7 @@
       },
       "AWSSDK.CognitoIdentityProvider/3.3.100": {
         "dependencies": {
-          "AWSSDK.Core": "3.3.100"
+          "AWSSDK.Core": "3.3.103.32"
         },
         "runtime": {
           "lib/netstandard2.0/AWSSDK.CognitoIdentityProvider.dll": {
@@ -102,11 +136,11 @@
           "lib/netstandard2.0/AWSSDK.CognitoIdentityProvider.dll": {}
         }
       },
-      "AWSSDK.Core/3.3.100": {
+      "AWSSDK.Core/3.3.103.32": {
         "runtime": {
           "lib/netstandard2.0/AWSSDK.Core.dll": {
             "assemblyVersion": "3.3.0.0",
-            "fileVersion": "3.3.100.0"
+            "fileVersion": "3.3.103.32"
           }
         },
         "compile": {
@@ -115,7 +149,7 @@
       },
       "AWSSDK.Extensions.NETCore.Setup/3.3.100.1": {
         "dependencies": {
-          "AWSSDK.Core": "3.3.100",
+          "AWSSDK.Core": "3.3.103.32",
           "Microsoft.Extensions.Configuration.Abstractions": "2.2.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "2.2.0",
           "Microsoft.Extensions.Logging.Abstractions": "2.2.0"
@@ -130,9 +164,23 @@
           "lib/netstandard2.0/AWSSDK.Extensions.NETCore.Setup.dll": {}
         }
       },
+      "AWSSDK.S3/3.3.104.20": {
+        "dependencies": {
+          "AWSSDK.Core": "3.3.103.32"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AWSSDK.S3.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.3.104.20"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/AWSSDK.S3.dll": {}
+        }
+      },
       "AWSSDK.SecurityToken/3.3.100": {
         "dependencies": {
-          "AWSSDK.Core": "3.3.100"
+          "AWSSDK.Core": "3.3.103.32"
         },
         "runtime": {
           "lib/netstandard2.0/AWSSDK.SecurityToken.dll": {
@@ -177,6 +225,22 @@
         },
         "compile": {
           "lib/netstandard1.3/Microsoft.CodeAnalysis.Workspaces.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Http.Polly/2.2.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Http": "2.2.0",
+          "Polly": "6.0.1",
+          "Polly.Extensions.Http": "2.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Http.Polly.dll": {
+            "assemblyVersion": "2.2.0.0",
+            "fileVersion": "2.2.0.18316"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Http.Polly.dll": {}
         }
       },
       "Microsoft.IdentityModel.JsonWebTokens/5.4.0": {
@@ -406,6 +470,31 @@
         },
         "compile": {
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
+        }
+      },
+      "Polly/6.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/Polly.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.1.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Polly.dll": {}
+        }
+      },
+      "Polly.Extensions.Http/2.0.1": {
+        "dependencies": {
+          "Polly": "6.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Polly.Extensions.Http.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.1.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Polly.Extensions.Http.dll": {}
         }
       },
       "System.Collections.NonGeneric/4.3.0": {
@@ -3713,6 +3802,20 @@
       "path": "amazon.extensions.cognitoauthentication/1.0.3",
       "hashPath": "amazon.extensions.cognitoauthentication.1.0.3.nupkg.sha512"
     },
+    "AutoMapper/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xCqvoxT4HIrNY/xlXG9W+BA/awdrhWvMTKTK/igkGSRbhOhpl3Q8O8Gxlhzjc9JsYqE7sS6AxgyuUUvZ6R5/Bw==",
+      "path": "automapper/9.0.0",
+      "hashPath": "automapper.9.0.0.nupkg.sha512"
+    },
+    "AutoMapper.Extensions.Microsoft.DependencyInjection/7.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-szI4yeRIM7GWe9JyekW0dKYehPB0t6M+I55fPeCebN6PhS7zQZa0eG3bgOnOx+eP3caSNoE7KEJs2rk7MLsh8w==",
+      "path": "automapper.extensions.microsoft.dependencyinjection/7.0.0",
+      "hashPath": "automapper.extensions.microsoft.dependencyinjection.7.0.0.nupkg.sha512"
+    },
     "AWSSDK.CognitoIdentity/3.3.100": {
       "type": "package",
       "serviceable": true,
@@ -3727,12 +3830,12 @@
       "path": "awssdk.cognitoidentityprovider/3.3.100",
       "hashPath": "awssdk.cognitoidentityprovider.3.3.100.nupkg.sha512"
     },
-    "AWSSDK.Core/3.3.100": {
+    "AWSSDK.Core/3.3.103.32": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-1zJggHEvcrqLRrICUJFsmmqxlnbQimUihhTsSWSlErqEi2keTROPrShmnAzz5aMU0dGuMFI8jWbAL1On2QXpKg==",
-      "path": "awssdk.core/3.3.100",
-      "hashPath": "awssdk.core.3.3.100.nupkg.sha512"
+      "sha512": "sha512-IrOH3QtrFVuz0+YRJanvzBKV5QO9uqUAVnSePiubYAXdyjX/9UxWfOUkP2BQndyL9HfBOZl/MZj9DZ0Ss8w+GA==",
+      "path": "awssdk.core/3.3.103.32",
+      "hashPath": "awssdk.core.3.3.103.32.nupkg.sha512"
     },
     "AWSSDK.Extensions.NETCore.Setup/3.3.100.1": {
       "type": "package",
@@ -3740,6 +3843,13 @@
       "sha512": "sha512-KrMhRur0x5X8sSkRSVKt7iEwdsMqu8sa5zqTOhaxEw52r/YaqiiRgw0hNcNCObpm2gQAASewlIVfaBitGjHlUw==",
       "path": "awssdk.extensions.netcore.setup/3.3.100.1",
       "hashPath": "awssdk.extensions.netcore.setup.3.3.100.1.nupkg.sha512"
+    },
+    "AWSSDK.S3/3.3.104.20": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Z7PqqXGI9toA1sgT1L7QC6blYO3PgID7xUAgC1DqJKrK9Nv8SBrAgfAWKSxWLqAlXwe56iwElke4rtqYW3SSbQ==",
+      "path": "awssdk.s3/3.3.104.20",
+      "hashPath": "awssdk.s3.3.3.104.20.nupkg.sha512"
     },
     "AWSSDK.SecurityToken/3.3.100": {
       "type": "package",
@@ -3761,6 +3871,13 @@
       "sha512": "sha512-tJlJ99SD8bHBAXShOG/pXQ1K118cnsF01obEf9aAtdgLbw3yEPahZ7qvWeGMjrheUhvOsSkv/wTKYg9euKa8MQ==",
       "path": "microsoft.codeanalysis.workspaces.common/2.8.0",
       "hashPath": "microsoft.codeanalysis.workspaces.common.2.8.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Http.Polly/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HIk+xQ0wQHPHaOGa/mm1NMx4aDO5IosO/C7SVmbwFb/XQgRHnGOnA8xNcUqzwerWHhw0vVzuIRJuLrKlipDsyA==",
+      "path": "microsoft.extensions.http.polly/2.2.0",
+      "hashPath": "microsoft.extensions.http.polly.2.2.0.nupkg.sha512"
     },
     "Microsoft.IdentityModel.JsonWebTokens/5.4.0": {
       "type": "package",
@@ -3859,6 +3976,20 @@
       "sha512": "sha512-qbXaB76XYUVLocLBs8Z9TS/ERGK2wm797feO+0JEPFvT7o7MRadOR77mqaSD4J1k8G+DlZQyq+MlkCuxrkr3ag==",
       "path": "nuget.frameworks/4.7.0",
       "hashPath": "nuget.frameworks.4.7.0.nupkg.sha512"
+    },
+    "Polly/6.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nwL8qNLkrphkehUftQqJZOExH6sJ+PPWhkrksqoouAvy9TuEgYUjFujlUVC8PyYLIWIneR9R4opcFpPKn1HQ1A==",
+      "path": "polly/6.0.1",
+      "hashPath": "polly.6.0.1.nupkg.sha512"
+    },
+    "Polly.Extensions.Http/2.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9NPDm98bmtlzLHnMDJ4YHno88yZmBOzvks34coP73/1GJzabSUi217xISa4z+b7YO5TncZMQVM4O5ThlZwg8mQ==",
+      "path": "polly.extensions.http/2.0.1",
+      "hashPath": "polly.extensions.http.2.0.1.nupkg.sha512"
     },
     "System.Collections.NonGeneric/4.3.0": {
       "type": "package",
