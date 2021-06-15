@@ -35,3 +35,8 @@ Advert API is placed in private subnet. It is not neded to be accessed from inte
 - It is plugged into ASP.NET Core Identity
 - It suupports token authentication (with JWT) as well as API authentication
 
+**AWS Console Steps**
+
+- Go to Cognito Service
+- Create User pool and add attributes, change password policy, set verification rules, add App Clints like web client, ios client etc
+
