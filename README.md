@@ -25,3 +25,13 @@ Advert API is placed in private subnet. It is not neded to be accessed from inte
 - Every Microservice should have it's own database. But creating different instance of database like SQL Server is costly, therefore we use Amazon RDS (Relation Database Service). For NoSql Database, we can use DynamoDB.
 - Client (browser or mobile app) connect to Amazon CloudFront(Caching service). Cloudfront sends data to API Gateway (Aggragates all API into one address)
 
+
+### Authentication and Authorization
+
+**AWS Cognito** has all the following features:
+
+- The applicatiion supports authentication through OAuth and OpenId Connect 
+- It supports linking with Google and Facebook
+- It is plugged into ASP.NET Core Identity
+- It suupports token authentication (with JWT) as well as API authentication
+
