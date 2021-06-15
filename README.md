@@ -37,6 +37,18 @@ Advert API is placed in private subnet. It is not neded to be accessed from inte
 
 **AWS Console Steps**
 
-- Go to Cognito Service
+- Go to Service -> Cognito
 - Create User pool and add attributes, change password policy, set verification rules, add App Clints like web client, ios client etc
+- Create IAM user and attch policy AmazonCognitoDeveloperAuthentication. Fo to Security Credentials Tab and create Access key
+
+**Windows System Steps**
+
+- Create profile in our Windows System. Fo to Users root directory (type %USERPROFILE%). Create folder .aws.. Add file credentials
+
+```
+[default]
+aws_access_key_id = XXXXXXXXXXXXXXXXXXXXXX
+aws_secret_access_key = YYYYYYYYYYYYYYYYYY
+```
+
 
