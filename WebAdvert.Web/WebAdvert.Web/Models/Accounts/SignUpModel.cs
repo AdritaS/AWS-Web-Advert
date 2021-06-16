@@ -14,12 +14,12 @@ namespace WebAdvert.Web.Models.Accounts
         public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
-        [StringLength(6, ErrorMessage ="Password must be of minimum 6 character")]
+        [StringLength(30, MinimumLength = 8, ErrorMessage ="Password must be of minimum 8 character")]
         [Display(Name = "Password")]
         public string Password { get; set; }
         [Required]
         [DataType(DataType.Password)]
-        [StringLength(6, ErrorMessage = "Password must be of minimum 6 character")]
+        [StringLength(30, MinimumLength = 8, ErrorMessage = "Password must be of minimum 8 character")]
         [Compare("Password", ErrorMessage = "Password and Confirm Password must be same")]
         public string ConfirmPassword { get; set; }
 

@@ -13,7 +13,6 @@ namespace WebAdvert.Web.Models.Accounts
         [Display(Name = "Email")]
         public string Email { get; set; }
         [Required]
-
         public string Code { get; set; }
     }
 }

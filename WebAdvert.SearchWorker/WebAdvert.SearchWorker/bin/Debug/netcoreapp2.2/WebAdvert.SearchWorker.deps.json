@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "782a95dfb3b984aaf0bad952e006af002c4f3947"
+    "signature": ""
   },
   "compilationOptions": {},
   "targets": {
@@ -9,6 +9,7 @@
       "WebAdvert.SearchWorker/1.0.0": {
         "dependencies": {
           "Amazon.Lambda.Core": "1.1.0",
+          "Amazon.Lambda.SNSEvents": "1.1.0",
           "Amazon.Lambda.Serialization.Json": "1.6.0"
         },
         "runtime": {
@@ -32,6 +33,14 @@
           "lib/netstandard2.0/Amazon.Lambda.Serialization.Json.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.2.0.0"
+          }
+        }
+      },
+      "Amazon.Lambda.SNSEvents/1.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/Amazon.Lambda.SNSEvents.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -362,6 +371,13 @@
       "sha512": "sha512-hiGb51d7A8MhPy9pZy7Uu+rcs2g+YziueQkacSpn/iI+9a2CdolrtFo+ojJhKvg90v7lZqAKvt2NRrmldV1qHA==",
       "path": "amazon.lambda.serialization.json/1.6.0",
       "hashPath": "amazon.lambda.serialization.json.1.6.0.nupkg.sha512"
+    },
+    "Amazon.Lambda.SNSEvents/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2bDTVmU8fzjjols+9keJtzQJHq5XAAfI28chvrLtBaOwEMzMfNV606ciEERndg5+cmhrO2DQVJmSK5yJ4PAT4w==",
+      "path": "amazon.lambda.snsevents/1.1.0",
+      "hashPath": "amazon.lambda.snsevents.1.1.0.nupkg.sha512"
     },
     "Microsoft.CSharp/4.0.1": {
       "type": "package",

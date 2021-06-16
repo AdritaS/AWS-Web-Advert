@@ -16,7 +16,8 @@ namespace WebAdvert.Web.Controllers
         private readonly UserManager<CognitoUser> _userManager;
         private readonly CognitoUserPool _pool;
 
-        public AccountsController(SignInManager<CognitoUser> signInManager, UserManager<CognitoUser> userManager, CognitoUserPool pool)
+        public AccountsController(SignInManager<CognitoUser> signInManager,
+            UserManager<CognitoUser> userManager, CognitoUserPool pool)
         {
             _signInManager = signInManager;
             _userManager = userManager;

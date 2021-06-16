@@ -20,6 +20,28 @@ namespace WebAdvert.SearchWorker
                 //var advertDocument = MappingHelper.Map(message);
                 //await _client.IndexDocumentAsync(advertDocument);
 
+           // aws config
+
+
+//                {
+//                    "Version": "2012-10-17",
+//  "Statement": [
+//    {
+//      "Effect": "Allow",
+//      "Principal": {
+//        "AWS": [
+//          "*"
+//        ]
+//    },
+//      "Action": [
+//        "es:*"
+//      ],
+//      "Resource": "arn:aws:es:ap-south-1:143753221730:domain/advertapi/*"
+//    }
+//  ]
+//}
+
+
             }
         }
     }
