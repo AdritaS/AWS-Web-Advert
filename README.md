@@ -39,7 +39,7 @@ Advert API is placed in private subnet. It is not neded to be accessed from inte
 
 - Go to Service -> Cognito
 - Create User pool and add attributes, change password policy, set verification rules, add App Clints like web client, ios client etc
-- Create IAM user and attch policy AmazonCognitoDeveloperAuthentication. Fo to Security Credentials Tab and create Access key
+- Create IAM user and attch policy **AmazonCognitoDeveloperAuthentication** and **AdministratorAccess**. Go to Security Credentials Tab and create Access key
 
 **Windows System Steps**
 
@@ -52,3 +52,10 @@ aws_secret_access_key = YYYYYYYYYYYYYYYYYY
 ```
 
 
+### #Microservice 1 - WebAdvert.Web - This is our Web UI.
+
+This is a ASP.NET Core MVC Web Application.
+
+It has the following pages:
+
+- SignUp, Login and Confirm Password pages which connects with AWS Cognito. AWS Nuget Packages has been used **Amazon.AspNetCore.Identity.Cognito** and **Amazon.Extensions.CognitoAuthentication**
