@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace WebAdvert.Web.Services
 {
-    public class S3FileUploader : IS3FileUploader
+    public class S3FileUploader : IFileUploader
     {
         private readonly IConfiguration _configuration;
 

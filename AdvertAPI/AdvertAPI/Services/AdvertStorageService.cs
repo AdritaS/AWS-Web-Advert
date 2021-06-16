@@ -35,11 +35,19 @@ namespace AdvertAPI.Services
 
         public async Task<bool> CheckHealthAsync()
         {
-            using (var client = new AmazonDynamoDBClient())
+            try
             {
-                var tableData = await client.DescribeTableAsync("Adverts");
-                return string.Compare(tableData.Table.TableStatus, "active", true) == 0;
+                using (var client = new AmazonDynamoDBClient())
+                {
+                    var tableData = await client.DescribeTableAsync("Adverts");
+                    return string.Compare(tableData.Table.TableStatus, "active", true) == 0;
+                }
             }
+            catch(Exception ex)
+            {
+                return false;
+            }
+
         }
 
         public async Task Confirm(ConfirmAdvertModel model)

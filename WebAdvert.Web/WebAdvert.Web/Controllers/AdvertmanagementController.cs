@@ -18,11 +18,11 @@ namespace WebAdvert.Web.Controllers
 
     public class AdvertManagementController : Controller
     {
-        private readonly IS3FileUploader _fileUploader;
+        private readonly IFileUploader _fileUploader;
         private readonly IAdvertApiClient _advertApiClient;
         private readonly IMapper _mapper;
 
-        public AdvertManagementController(IS3FileUploader fileUploader, IMapper mapper, IAdvertApiClient advertApiClient)//, IAdvertApiClient advertApiClient
+        public AdvertManagementController(IFileUploader fileUploader, IMapper mapper, IAdvertApiClient advertApiClient)//, IAdvertApiClient advertApiClient
         {
             _fileUploader = fileUploader;
             _advertApiClient = advertApiClient;

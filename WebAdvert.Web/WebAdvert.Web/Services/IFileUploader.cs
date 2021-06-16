@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAdvert.Web.Services
 {
-    public interface IS3FileUploader
+    public interface IFileUploader
     {
         Task<bool> UploadFileAsync(string fileName, Stream storageStream);
     }

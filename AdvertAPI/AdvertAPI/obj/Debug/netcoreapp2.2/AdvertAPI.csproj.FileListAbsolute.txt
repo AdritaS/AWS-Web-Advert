@@ -15,3 +15,7 @@ C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.csproj.CopyComplete
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.dll
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.pdb
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\appsettings.Development.json
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\appsettings.json
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\Properties\launchSettings.json
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.genruntimeconfig.cache

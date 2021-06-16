@@ -31,7 +31,7 @@ namespace AdvertAPI
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IAdvertStorageService, AdvertStorageService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddHealthChecks().AddCheck<StorageHealthCheck>("Dynamo DB Storage");
+            services.AddHealthChecks().AddCheck<StorageHealthCheck>("Storage");
             //services.AddHealthChecks(checks =>
             //{
             //    checks.AddCheck<StorageHealthCheck>("Storage", new System.TimeSpan(0, 1, 0);

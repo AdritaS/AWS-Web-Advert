@@ -47,7 +47,7 @@ namespace WebAdvert.Web
 
             //services.AddAutoMapper();
             services.AddAutoMapper(typeof(Startup));
-            services.AddTransient<IS3FileUploader, S3FileUploader>();
+            services.AddTransient<IFileUploader, S3FileUploader>();
             services.AddTransient<IAdvertApiClient, AdvertApiClient>();
            // services.AddHttpClient<IAdvertApiClient, AdvertApiClient>();
             //.AddPolicyHandler(GetRetryPolicy())
