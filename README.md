@@ -116,3 +116,15 @@ using (var client = new AmazonDynamoDBClient())
 This is added to check if the application is alive. We do it by using .Microsoft.AspNetCor.HealthChecks `AddHealthChecks` in startup.cs We have also added health check for individual service.
 
 Exponential Backoff  and  Circuit Breaker has been added using Polly Library.
+
+
+
+### #Microservice 3 - WebAdvert.SearchWorker - This is the API to add Advertisements
+
+_Note_ - **CQRS** (Command Query Responsibility Segregation) is an architectural pattern that separates reading and writing into two different models. It does responsibility segregation for the Command model & Query model. In our Architecture, **#Microservice 2 - Advert.API** is the Command Model (i.e writing Advertisements to database) and **#Microservice 4 - WebAdvert.SearchAPI** is for Query Model (Searching Advertisements for displaying)
+
+This is a ASP.NET Core WebAPI Application. When Advert API creates an advertisement in database, it sends a message (using **SNS**) to SearchWorker, the SearchWorker creates a new document in **Elastic Search**. When user types for an Advertisement, it sends a request to  #Microservice 4 - WebAdvert.SearchAPI
+
+**AWS Console Steps for DynamoDB**
+
+- Go to Service -> DynamoDB
