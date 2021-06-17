@@ -29,7 +29,7 @@ namespace AdvertAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
-            services.AddTransient<IAdvertStorageService, AdvertStorageService>();
+            services.AddTransient<IAdvertStorageService, DynamoDBAdvertStorage>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddHealthChecks().AddCheck<StorageHealthCheck>("Storage");
             //services.AddHealthChecks(checks =>

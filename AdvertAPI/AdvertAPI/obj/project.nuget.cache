@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ybNl3Ptn9IR6ir32LIl+HLynZyTYqQtE6CMbx8IVrQTCZ+STtb/U+390CIwnriJc9mPvzm6jTm/uElRCfUYeag==",
+  "dgSpecHash": "5NoN4JmAQM652wv9H/CcaGqPyODM8wBl9wJeaPc+OWw1Hx5USENXAqg03bqiTieTt8O/8FAuE3Gbf8ux7d/WLw==",
   "success": true,
   "projectFilePath": "C:\\Adrita\\Workspace\\GitHub\\Projects\\AWS-Web-Advert\\AdvertAPI\\AdvertAPI\\AdvertAPI.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\adrit\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\7.0.0\\automapper.extensions.microsoft.dependencyinjection.7.0.0.nupkg.sha512",
     "C:\\Users\\adrit\\.nuget\\packages\\awssdk.core\\3.3.103.32\\awssdk.core.3.3.103.32.nupkg.sha512",
     "C:\\Users\\adrit\\.nuget\\packages\\awssdk.dynamodbv2\\3.3.101.59\\awssdk.dynamodbv2.3.3.101.59.nupkg.sha512",
+    "C:\\Users\\adrit\\.nuget\\packages\\awssdk.simplenotificationservice\\3.3.101.5\\awssdk.simplenotificationservice.3.3.101.5.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnet.webapi.client\\5.2.6\\microsoft.aspnet.webapi.client.5.2.6.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore\\2.2.0\\microsoft.aspnetcore.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.antiforgery\\2.2.0\\microsoft.aspnetcore.antiforgery.2.2.0.nupkg.sha512",

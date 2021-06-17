@@ -1,6 +1,5 @@
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\AdvertAPI.Models.dll
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.csprojAssemblyReference.cache
-C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.csproj.CoreCompileInputs.cache
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.RazorAssemblyInfo.cache
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.RazorAssemblyInfo.cs
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.AssemblyInfoInputs.cache
@@ -19,3 +18,4 @@ C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\appsettings.json
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\bin\Debug\netcoreapp2.2\Properties\launchSettings.json
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.genruntimeconfig.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\AdvertAPI\AdvertAPI\obj\Debug\netcoreapp2.2\AdvertAPI.csproj.CoreCompileInputs.cache

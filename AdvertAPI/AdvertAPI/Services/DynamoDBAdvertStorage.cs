@@ -9,10 +9,10 @@ using Amazon.DynamoDBv2.DataModel;
 
 namespace AdvertAPI.Services
 {
-    public class AdvertStorageService : IAdvertStorageService
+    public class DynamoDBAdvertStorage : IAdvertStorageService
     {
         private readonly IMapper _mapper;
-        public AdvertStorageService(IMapper mapper)
+        public DynamoDBAdvertStorage(IMapper mapper)
         {
             _mapper = mapper;
         }
@@ -72,6 +72,19 @@ namespace AdvertAPI.Services
                     }
                 }
             }
+        }
+        public async Task<AdvertModel> GetByIdAsync(string id)
+        {
+            using (var client = new AmazonDynamoDBClient())
+            {
+                using (var context = new DynamoDBContext(client))
+                {
+                    var dbModel = await context.LoadAsync<AdvertModelDb>(id);
+                    if (dbModel != null) return _mapper.Map<AdvertModel>(dbModel);
+                }
+            }
+
+            throw new KeyNotFoundException();
         }
     }
 }

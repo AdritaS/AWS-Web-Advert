@@ -25,6 +25,7 @@
       "AdvertAPI/1.0.0": {
         "dependencies": {
           "AWSSDK.DynamoDBv2": "3.3.101.59",
+          "AWSSDK.SimpleNotificationService": "3.3.101.5",
           "AdvertAPI.Models": "1.0.0",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "7.0.0",
           "Microsoft.AspNetCore.App": "2.2.0",
@@ -93,6 +94,20 @@
         },
         "compile": {
           "lib/netstandard2.0/AWSSDK.DynamoDBv2.dll": {}
+        }
+      },
+      "AWSSDK.SimpleNotificationService/3.3.101.5": {
+        "dependencies": {
+          "AWSSDK.Core": "3.3.103.32"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AWSSDK.SimpleNotificationService.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.3.101.5"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/AWSSDK.SimpleNotificationService.dll": {}
         }
       },
       "Microsoft.AspNetCore.HealthChecks/1.0.0": {
@@ -3712,6 +3727,13 @@
       "sha512": "sha512-46heWSMxPNYegsDXi1+bl3ghPjp7Y2jHRCEolK4RdRetaTb2eW2BkjJJco2JCYJz9A02kLS0ih27YQbZzSUH1w==",
       "path": "awssdk.dynamodbv2/3.3.101.59",
       "hashPath": "awssdk.dynamodbv2.3.3.101.59.nupkg.sha512"
+    },
+    "AWSSDK.SimpleNotificationService/3.3.101.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7HD/EmeO32nbyDtAt1xCgXp8CRWLc7GlPzJC3kDlgUnCPOQ4i3egyXN6seDbZWe/kLD9vSooRxHS4HxJ4QedAg==",
+      "path": "awssdk.simplenotificationservice/3.3.101.5",
+      "hashPath": "awssdk.simplenotificationservice.3.3.101.5.nupkg.sha512"
     },
     "Microsoft.AspNetCore.HealthChecks/1.0.0": {
       "type": "package",
