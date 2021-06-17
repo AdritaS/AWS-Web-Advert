@@ -111,6 +111,8 @@ using (var client = new AmazonDynamoDBClient())
 }
 ```
 
-**Adding Health Check to the Microservice**
+**Adding Health Check and Resilient Pattern to the Microservice**
 
 This is added to check if the application is alive. We do it by using .Microsoft.AspNetCor.HealthChecks `AddHealthChecks` in startup.cs We have also added health check for individual service.
+
+Exponential Backoff  and  Circuit Breakerhas been added using Polly Library.
