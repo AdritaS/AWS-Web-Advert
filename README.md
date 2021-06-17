@@ -115,4 +115,4 @@ using (var client = new AmazonDynamoDBClient())
 
 This is added to check if the application is alive. We do it by using .Microsoft.AspNetCor.HealthChecks `AddHealthChecks` in startup.cs We have also added health check for individual service.
 
-Exponential Backoff  and  Circuit Breakerhas been added using Polly Library.
+Exponential Backoff  and  Circuit Breaker has been added using Polly Library.
