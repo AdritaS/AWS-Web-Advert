@@ -59,3 +59,58 @@ This is a ASP.NET Core MVC Web Application.
 It has the following pages:
 
 - SignUp, Login and Confirm Password pages which connects with AWS Cognito. AWS Nuget Packages has been used **Amazon.AspNetCore.Identity.Cognito** and **Amazon.Extensions.CognitoAuthentication**
+- Advertisement Management page to create a new Advertisement (using #Microservice 2 - Advert.API) and s3 Bucket to upload image. AWS Nuget Packages **AWSSDK.S3** has been used.
+
+```
+     var bucketName = _configuration.GetValue<string>("ImageBucket");
+
+            using (var client = new AmazonS3Client())
+            {
+                if (storageStream.Length > 0)
+                    if (storageStream.CanSeek)
+                        storageStream.Seek(0, SeekOrigin.Begin);
+
+                var request = new PutObjectRequest
+                {
+                    AutoCloseStream = true,
+                    BucketName = bucketName,
+                    InputStream = storageStream,
+                    Key = fileName
+                };
+                var response = await client.PutObjectAsync(request).ConfigureAwait(false);
+                return response.HttpStatusCode == HttpStatusCode.OK;
+    }
+```
+
+**AWS Console Steps for S3 Bucket**
+
+- Go to Service -> Amazon S3
+- Create a new bucket
+
+### #Microservice 2 - Advert.API - This is the API to add Advertisements
+
+This is a ASP.NET Core WebAPI Application. It connects with DynamoDB database.
+
+**AWS Console Steps for DynamoDB**
+
+- Go to Service -> DynamoDB
+- Create a table( here : Adverts)
+
+
+The Microservice has the following enpoints:
+
+- An endpoint to add Advertisements. To connect with DynamoDB, AWS Nuget Packages **AWSSDK.DynamoDBv2** has been used. In order to use DataModel with DynamoDB, some attributes from Amazon.DynamoDBv2.DataModel like [DynamoDBTable], [DynamoDBProperty] has been added to it.
+
+```
+using (var client = new AmazonDynamoDBClient())
+{
+   using (var context = new DynamoDBContext(client))
+   {
+      await context.SaveAsync(dbModel);
+   }
+}
+```
+
+**Adding Health Check to the Microservice**
+
+This is added to check if the application is alive. We do it by using .Microsoft.AspNetCor.HealthChecks `AddHealthChecks` in startup.cs We have also added health check for individual service.
