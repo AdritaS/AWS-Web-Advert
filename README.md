@@ -52,7 +52,7 @@ aws_secret_access_key = YYYYYYYYYYYYYYYYYY
 ```
 
 
-### #Microservice 1 - WebAdvert.Web - This is our Web UI.
+## #Microservice 1 - WebAdvert.Web - This is our Web UI.
 
 This is a ASP.NET Core MVC Web Application.
 
@@ -87,7 +87,7 @@ It has the following pages:
 - Go to Service -> Amazon S3
 - Create a new bucket
 
-### #Microservice 2 - Advert.API - This is the API to add Advertisements
+## #Microservice 2 - Advert.API - This is the API to add Advertisements
 
 This is a ASP.NET Core WebAPI Application. It connects with DynamoDB database.
 
@@ -119,12 +119,21 @@ Exponential Backoff  and  Circuit Breaker has been added using Polly Library.
 
 
 
-### #Microservice 3 - WebAdvert.SearchWorker - This is the API to add Advertisements
+## #Microservice 3 - WebAdvert.SearchWorker - This is the API to add Advertisements
 
 _Note_ - **CQRS** (Command Query Responsibility Segregation) is an architectural pattern that separates reading and writing into two different models. It does responsibility segregation for the Command model & Query model. In our Architecture, **#Microservice 2 - Advert.API** is the Command Model (i.e writing Advertisements to database) and **#Microservice 4 - WebAdvert.SearchAPI** is for Query Model (Searching Advertisements for displaying)
 
-This is a ASP.NET Core WebAPI Application. When Advert API creates an advertisement in database, it sends a message (using **SNS**) to SearchWorker, the SearchWorker creates a new document in **Elastic Search**. When user types for an Advertisement, it sends a request to  #Microservice 4 - WebAdvert.SearchAPI
+This is a AWS Lamda (Serverless Functions). This becomes available only when needed and thus saving the infastructure cost. AWS Lamda can be plugged into SNS directly to pickup messages and then act on it.
 
-**AWS Console Steps for DynamoDB**
+When Advert API creates an advertisement in database, it sends a message (using **SNS**) to SearchWorker, the SearchWorker creates a new document in **Elastic Search**. When user types for an Advertisement, it sends a request to  #Microservice 4 - WebAdvert.SearchAPI
 
-- Go to Service -> DynamoDB
+**Messaging Concept**
+
+- A message is a type of notification that a  microservice can send out.
+- A message that is triggered when a state of the system changes is called an **Event**, eg AdvertisementCreated is raised when an advertisement is added to the database
+- Messages can be directly sent to subscribers  (subscriber has to be available at that time) or can be placed in Queue, so that any subscriber to the message channel can poll (with a time interval)  and receive the message when the subscriber becomes available
+- To implement messing in **AWS**, we can using **Simple Notification Service (SNS)** to send or receive message or **Simple Queue Service (SQS)** to persist the message  and subscribe it with polling.
+
+**AWS Console Steps for SNS**
+
+- Go to Service -> SNS
