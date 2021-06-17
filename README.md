@@ -137,3 +137,19 @@ When Advert API creates an advertisement in database, it sends a message (using 
 **AWS Console Steps for SNS**
 
 - Go to Service -> SNS
+- Create a topic and keep the topic ARN
+
+
+In Advert.Api, TopicArn is added in appsettings.json.  AWS Nuget Package **AWSSDK.SimpleNotificationService** is added
+
+       using (var client = new AmazonSimpleNotificationServiceClient())
+       {
+             var message = new AdvertConfirmedMessage
+             {
+                  Id = model.Id,
+                  Title = dbModel.Title
+             };
+
+             var messageJson = JsonConvert.SerializeObject(message);
+             await client.PublishAsync(topicArn, messageJson);
+       }
