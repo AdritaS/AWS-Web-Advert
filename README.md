@@ -122,9 +122,16 @@ Exponential Backoff  and  Circuit Breaker has been added using Polly Library.
 ## #Microservice 3 - WebAdvert.SearchWorker - This is the AWS Lambda Function to pickup SNS messages and create document in Elastic Search
 
 This is a AWS Lambda (Serverless Functions). This becomes available only when needed and thus saving the infastructure cost. AWS Lambda can be plugged into SNS directly to pickup messages and then act on it.
-It is a Class Library .NET Core Project. AWS Nuget Packagea **Amazon.Lambda.Core**, **Amazon.Lambda.SNSEvents** and **Amazon.Lambda.Serialization.Json** have been used.
+
+It is a Class Library .NET Core Project. AWS Nuget Packagea **Amazon.Lambda.Core**, **Amazon.Lambda.SNSEvents** and **Amazon.Lambda.Serialization.Json** have been used. We can also install **Amazon.Lambda.Tools** to publish everything with .NET Cli
 
 When Advert API creates an advertisement in database, it sends a message (using **SNS**) to SearchWorker, the SearchWorker creates a new document in **Elastic Search**. When user types for an Advertisement, it sends a request to  #Microservice 4 - WebAdvert.SearchAPI
+
+
+**Uploading Lambda Function**
+
+- **AWS Console Steps**
+      - We need to create a role for uploading Lambda Function. The role tells Amazon, what services this Lambda can access. Go to **IAM**, create new Role -> Choose Lambda -> Choose policy CloudWatchLogsFullAccess -> we can Add tag - Name: SearchWorkerRole ->Give Rolle name SearchWorkerRole and create role.
 
 **Messaging Concept**
 
