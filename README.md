@@ -52,6 +52,9 @@ aws_secret_access_key = YYYYYYYYYYYYYYYYYY
 ```
 
 
+_Note_ - **CQRS** (Command Query Responsibility Segregation) is an architectural pattern that separates reading and writing into two different models. It does responsibility segregation for the Command model & Query model. In our Architecture, **#Microservice 2 - Advert.API** is the Command Model (i.e writing Advertisements to database) and **#Microservice 4 - WebAdvert.SearchAPI** is for Query Model (Searching Advertisements for displaying)
+
+
 ## #Microservice 1 - WebAdvert.Web - This is our Web UI.
 
 This is a ASP.NET Core MVC Web Application.
@@ -154,7 +157,12 @@ Exponential Backoff  and  Circuit Breaker has been added using Polly Library.
 
 This is a AWS Lambda (Serverless Functions). This becomes available only when needed and thus saving the infastructure cost. AWS Lambda can be plugged into SNS directly to pickup messages and then act on it.
 
-It is a Class Library .NET Core Project. AWS Nuget Packagea **Amazon.Lambda.Core**, **Amazon.Lambda.SNSEvents** and **Amazon.Lambda.Serialization.Json** have been used. We can also install **Amazon.Lambda.Tools** to publish everything with .NET Cli
+The SearchWorker creates a new document in **Elastic Search** whenever it gets a message from **SNS**
+
+It is a Class Library .NET Core Project. AWS Nuget Packages **Amazon.Lambda.Core**, **Amazon.Lambda.SNSEvents** and **Amazon.Lambda.Serialization.Json** have been used for Lambda functionality. We can also install **Amazon.Lambda.Tools** to publish everything with .NET Cli. 
+
+Nuget Package **NEST** is installed to work with Elastic Search
+
 
 
 **AWS Console Steps for Elastic Search** - todo (31)
@@ -164,6 +172,26 @@ It is a Class Library .NET Core Project. AWS Nuget Packagea **Amazon.Lambda.Core
 - We chose Number of instance as 1 and Instance Type t2.small.elasticsearch
 - We chose Number Storage Type EBS, EBS VolumeType Magnetic and size 10
 - We chose Public access and somain template as Allow Open Access to the domain
+- Copy the endpoint from Overview tab of the Elastic Search Domain created and add it to Search worker's appsettings.json todo (32)
+
+
+        public SearchWorker(IElasticClient client)
+        {
+            _client = client;
+        }
+        public async Task Function(SNSEvent snsEvent, ILambdaContext context)
+        {
+
+            foreach (var record in snsEvent.Records)
+            {
+                context.Logger.LogLine(record.Sns.Message);
+
+                var message = JsonConvert.DeserializeObject<AdvertConfirmedMessage>(record.Sns.Message);
+                var advertDocument = MappingHelper.Map(message);
+                await _client.IndexDocumentAsync(advertDocument);
+
+            }
+        }
 
 
 ### Uploading Lambda Function
@@ -180,4 +208,3 @@ It is a Class Library .NET Core Project. AWS Nuget Packagea **Amazon.Lambda.Core
 
 
 
-_Note_ - **CQRS** (Command Query Responsibility Segregation) is an architectural pattern that separates reading and writing into two different models. It does responsibility segregation for the Command model & Query model. In our Architecture, **#Microservice 2 - Advert.API** is the Command Model (i.e writing Advertisements to database) and **#Microservice 4 - WebAdvert.SearchAPI** is for Query Model (Searching Advertisements for displaying)
