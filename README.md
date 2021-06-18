@@ -52,7 +52,9 @@ aws_secret_access_key = YYYYYYYYYYYYYYYYYY
 ```
 
 
-_Note_ - **CQRS** (Command Query Responsibility Segregation) is an architectural pattern that separates reading and writing into two different models. It does responsibility segregation for the Command model & Query model. In our Architecture, **#Microservice 2 - Advert.API** is the Command Model (i.e writing Advertisements to database) and **#Microservice 4 - WebAdvert.SearchAPI** is for Query Model (Searching Advertisements for displaying)
+### CQRS
+
+Command Query Responsibility Segregation is an architectural pattern that separates reading and writing into two different models. It does responsibility segregation for the Command model & Query model. In our Architecture, **#Microservice 2 - Advert.API** is the Command Model (i.e writing Advertisements to database) and **#Microservice 4 - WebAdvert.SearchAPI** is for Query Model (Searching Advertisements for displaying)
 
 
 ## #Microservice 1 - WebAdvert.Web - This is our Web UI.
