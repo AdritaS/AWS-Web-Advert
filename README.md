@@ -210,6 +210,22 @@ Nuget Package **NEST** is installed to work with Elastic Search
 ## #Microservice 4 - Search.API - This is the API to search Advertisements
 
 
+        public SearchService(IElasticClient client)
+        {
+            _client = client;
+        }
+
+        public async Task<List<AdvertType>> Search(string keyword)
+        {
+            var searchResponse = await _client.SearchAsync<AdvertType>(search => search.
+                Query(query => query.
+                    Term(field => field.Title, keyword.ToLower())
+                ));
+
+            return searchResponse.Hits.Select(hit => hit.Source).ToList();
+        }
+
+
 ## Logging for Microservices in AWS
 
 **Types of Logs**
