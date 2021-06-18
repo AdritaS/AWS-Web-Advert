@@ -111,21 +111,7 @@ using (var client = new AmazonDynamoDBClient())
 }
 ```
 
-**Adding Health Check and Resilient Pattern to the Microservice**
-
-This is added to check if the application is alive. We do it by using .Microsoft.AspNetCor.HealthChecks `AddHealthChecks` in startup.cs We have also added health check for individual service.
-
-Exponential Backoff  and  Circuit Breaker has been added using Polly Library.
-
-
-
-## #Microservice 3 - WebAdvert.SearchWorker - This is the AWS Lambda Function to pickup SNS messages and create document in Elastic Search
-
-This is a AWS Lambda (Serverless Functions). This becomes available only when needed and thus saving the infastructure cost. AWS Lambda can be plugged into SNS directly to pickup messages and then act on it.
-
-It is a Class Library .NET Core Project. AWS Nuget Packagea **Amazon.Lambda.Core**, **Amazon.Lambda.SNSEvents** and **Amazon.Lambda.Serialization.Json** have been used. We can also install **Amazon.Lambda.Tools** to publish everything with .NET Cli
-
-When Advert API creates an advertisement in database, it sends a message (using **SNS**) to SearchWorker, the SearchWorker creates a new document in **Elastic Search**. When user types for an Advertisement, it sends a request to  #Microservice 4 - WebAdvert.SearchAPI
+When Advert API creates an advertisement in database, it sends a message (using **SNS**) to SearchWorker ( #Microservice 3), the SearchWorker creates a new document in **Elastic Search**. When user types for an Advertisement, it sends a request to  #Microservice 4 - WebAdvert.SearchAPI
 
 
 **Messaging Concept**
@@ -155,8 +141,31 @@ In Advert.Api, TopicArn is added in appsettings.json.  AWS Nuget Package **AWSSD
              await client.PublishAsync(topicArn, messageJson);
        }
 
+
+**Adding Health Check and Resilient Pattern to the Microservice**
+
+This is added to check if the application is alive. We do it by using .Microsoft.AspNetCor.HealthChecks `AddHealthChecks` in startup.cs We have also added health check for individual service.
+
+Exponential Backoff  and  Circuit Breaker has been added using Polly Library.
+
+
+
+## #Microservice 3 - WebAdvert.SearchWorker - This is the AWS Lambda Function to pickup SNS messages and create document in Elastic Search
+
+This is a AWS Lambda (Serverless Functions). This becomes available only when needed and thus saving the infastructure cost. AWS Lambda can be plugged into SNS directly to pickup messages and then act on it.
+
+It is a Class Library .NET Core Project. AWS Nuget Packagea **Amazon.Lambda.Core**, **Amazon.Lambda.SNSEvents** and **Amazon.Lambda.Serialization.Json** have been used. We can also install **Amazon.Lambda.Tools** to publish everything with .NET Cli
+
+
 **AWS Console Steps for Elastic Search** - todo (31)
-- 
+
+- Go to Service -> ElasticSearch
+- Create a new domain (Elastic Search Domain is like container for our Elastic Search Instance)
+- We chose Number of instance as 1 and Instance Type t2.small.elasticsearch
+- We chose Number Storage Type EBS, EBS VolumeType Magnetic and size 10
+- We chose Public access and somain template as Allow Open Access to the domain
+
+
 ### Uploading Lambda Function
 
 **Packagaing WebAdvert.SearchWorker to a zip folder** - todo (31)
@@ -169,17 +178,6 @@ In Advert.Api, TopicArn is added in appsettings.json.  AWS Nuget Package **AWSSD
   - Upload lambda code - todo (31)
 
 
-
-
-
-
-**AWS Console Steps for Elastic Search**
-
-- Go to Service -> ElasticSearch
-- Create a new domain (Elastic Search Domain is like container for our Elastic Search Instance)
-- We chose Number of instance as 1 and Instance Type t2.small.elasticsearch
-- We chose Number Storage Type EBS, EBS VolumeType Magnetic and size 10
-- We chose Public access and somain template as Allow Open Access to the domain
 
 
 _Note_ - **CQRS** (Command Query Responsibility Segregation) is an architectural pattern that separates reading and writing into two different models. It does responsibility segregation for the Command model & Query model. In our Architecture, **#Microservice 2 - Advert.API** is the Command Model (i.e writing Advertisements to database) and **#Microservice 4 - WebAdvert.SearchAPI** is for Query Model (Searching Advertisements for displaying)
