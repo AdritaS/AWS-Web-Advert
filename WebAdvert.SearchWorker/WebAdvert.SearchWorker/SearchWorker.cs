@@ -1,9 +1,11 @@
-﻿using Amazon.Lambda.Core;
+﻿using AdvertAPI.Models.Messages;
+using Amazon.Lambda.Core;
 using Amazon.Lambda.SNSEvents;
 using Nest;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
+using WebAdvert.SearchWorker.Helpers;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 namespace WebAdvert.SearchWorker
@@ -11,6 +13,13 @@ namespace WebAdvert.SearchWorker
     public class SearchWorker
     {
         private readonly IElasticClient _client;
+
+        // This always calls the next constructor and singleton instance of Elastic client is used
+        // This is the replacement of AddSingleton
+        public SearchWorker() : this(ElasticSearchHelper.GetInstance(ConfigurationHelper.Instance))
+        {
+
+        }
         public SearchWorker(IElasticClient client)
         {
             _client = client;
@@ -25,28 +34,6 @@ namespace WebAdvert.SearchWorker
                 var message = JsonConvert.DeserializeObject<AdvertConfirmedMessage>(record.Sns.Message);
                 var advertDocument = MappingHelper.Map(message);
                 await _client.IndexDocumentAsync(advertDocument);
-
-                // aws config
-
-
-                //                {
-                //                    "Version": "2012-10-17",
-                //  "Statement": [
-                //    {
-                //      "Effect": "Allow",
-                //      "Principal": {
-                //        "AWS": [
-                //          "*"
-                //        ]
-                //    },
-                //      "Action": [
-                //        "es:*"
-                //      ],
-                //      "Resource": "arn:aws:es:ap-south-1:143753221730:domain/advertapi/*"
-                //    }
-                //  ]
-                //}
-
 
             }
         }

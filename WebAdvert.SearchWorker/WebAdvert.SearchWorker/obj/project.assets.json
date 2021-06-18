@@ -722,6 +722,16 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
+      },
+      "AdvertAPI.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/AdvertAPI.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AdvertAPI.Models.dll": {}
+        }
       }
     }
   },
@@ -3171,10 +3181,16 @@
         "system.xml.xdocument.4.0.11.nupkg.sha512",
         "system.xml.xdocument.nuspec"
       ]
+    },
+    "AdvertAPI.Models/1.0.0": {
+      "type": "project",
+      "path": "../AdvertAPI.Models/AdvertAPI.Models.csproj",
+      "msbuildProject": "../AdvertAPI.Models/AdvertAPI.Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "AdvertAPI.Models >= 1.0.0",
       "Amazon.Lambda.Core >= 2.0.0",
       "Amazon.Lambda.SNSEvents >= 2.0.0",
       "Amazon.Lambda.Serialization.Json >= 2.0.0",
@@ -3213,7 +3229,11 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Adrita\\Workspace\\GitHub\\Projects\\AWS-Web-Advert\\WebAdvert.SearchWorker\\AdvertAPI.Models\\AdvertAPI.Models.csproj": {
+              "projectPath": "C:\\Adrita\\Workspace\\GitHub\\Projects\\AWS-Web-Advert\\WebAdvert.SearchWorker\\AdvertAPI.Models\\AdvertAPI.Models.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
