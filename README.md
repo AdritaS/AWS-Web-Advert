@@ -128,11 +128,6 @@ It is a Class Library .NET Core Project. AWS Nuget Packagea **Amazon.Lambda.Core
 When Advert API creates an advertisement in database, it sends a message (using **SNS**) to SearchWorker, the SearchWorker creates a new document in **Elastic Search**. When user types for an Advertisement, it sends a request to  #Microservice 4 - WebAdvert.SearchAPI
 
 
-**Uploading Lambda Function**
-
-- **AWS Console Steps**
-      - We need to create a role for uploading Lambda Function. The role tells Amazon, what services this Lambda can access. Go to **IAM**, create new Role -> Choose Lambda -> Choose policy CloudWatchLogsFullAccess -> we can Add tag - Name: SearchWorkerRole ->Give Rolle name SearchWorkerRole and create role.
-
 **Messaging Concept**
 
 - A message is a type of notification that a  microservice can send out.
@@ -143,7 +138,7 @@ When Advert API creates an advertisement in database, it sends a message (using 
 **AWS Console Steps for SNS**
 
 - Go to Service -> SNS
-- Create a topic and keep the topic ARN
+- Create a topic  (AdvertAPI Topic) , choose standard and keep the topic ARN
 
 
 In Advert.Api, TopicArn is added in appsettings.json.  AWS Nuget Package **AWSSDK.SimpleNotificationService** is added
@@ -159,6 +154,23 @@ In Advert.Api, TopicArn is added in appsettings.json.  AWS Nuget Package **AWSSD
              var messageJson = JsonConvert.SerializeObject(message);
              await client.PublishAsync(topicArn, messageJson);
        }
+
+**AWS Console Steps for Elastic Search** - todo (31)
+- 
+### Uploading Lambda Function
+
+**Packagaing WebAdvert.SearchWorker to a zip folder** - todo (31)
+
+**AWS Console Steps**
+
+  - We need to create a role for uploading Lambda Function. The role tells Amazon, what services this Lambda can access. Go to **IAM**, create new Role -> Choose Lambda -> Choose policy CloudWatchLogsFullAccess -> we can Add tag - Name: SearchWorkerRole -> Give Rolle name SearchWorkerRole and create role.
+  - Go to Service -> Lambda -> Create Function -> Choose AuthorFromScratch -> Give a name :searchworker, select Runtime (eg: .NET Core 3.1), for Role - selct use existing role (SearchWorkerRole).
+  - Go to the created SearchWorker Lambda -> Add Trigger -> Select SNS -> Choose AdvertAPI Topic ARN
+  - Upload lambda code - todo (31)
+
+
+
+
 
 
 **AWS Console Steps for Elastic Search**
