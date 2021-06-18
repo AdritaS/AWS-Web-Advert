@@ -174,7 +174,7 @@ Nuget Package **NEST** is installed to work with Elastic Search
 - We chose Number of instance as 1 and Instance Type t2.small.elasticsearch
 - We chose Number Storage Type EBS, EBS VolumeType Magnetic and size 10
 - We chose Public access and somain template as Allow Open Access to the domain
-- Copy the endpoint from Overview tab of the Elastic Search Domain created and add it to Search worker's appsettings.json todo (32)
+- It provides an Elastic Search endpoint and a Kibana endpoint. Copy the Elastic Search endpoint from Overview tab of the Elastic Search Domain created and add it to Search worker's appsettings.json todo (32)
 
 
         public SearchWorker(IElasticClient client)
@@ -207,6 +207,25 @@ Nuget Package **NEST** is installed to work with Elastic Search
   - Go to the created SearchWorker Lambda -> Add Trigger -> Select SNS -> Choose AdvertAPI Topic ARN
   - Upload lambda code - todo (31)
 
+## #Microservice 4 - Search.API - This is the API to search Advertisements
 
 
+## Logging for Microservices in AWS
 
+**Types of Logs**
+
+- Infastructure Logs (eg: CPU/ Bandwidth uses)  - AWS Cloud Watch
+- Security Logs - AWS Cloud Trail
+- Change and Audit Logs (eg: Somebody deletes Elastic Search Domain)- AWS Cloud Trail
+- Application Logs - via code
+
+Our application send logs to **AWS Cloud Watch**. We can set up AWS Cloud Trail and it will send the logs to AWS Cloud Watch as well. AWS Cloud Watch can be configured to ship all the logs to Amazon Elastic Search Service (This launches a Lamda function automatically - which we don't see . It pics logs from Cloud watch and writes them to ELastic Search. Therefore the role used for AWS Cloud Watch must have access to execute AWS Lambda function)
+
+To see what's going on in Elastic Serch when the logs are dumped, we use **Kibana**. We can use Amazon Cognito to provide autehtication to the users that can access Kibana Client
+
+**AWS Console Steps**
+
+- Go to Service -> Cognito -> Open WebAdvert User Pool and copy Pool Id and App client Id
+- Go to Manage Identity Pool -> Create Identity Pool (KibanaUsers) and under Authentication providers add Pool Id and App client Id and create pool
+- Note the Role Name and Allow
+- Under IAM - Roles, we can see 2 roles created - CognitoUsersAuth and CognitoUsersUnauth. Copy the Role ARN of CognitoUsersAuth Role
