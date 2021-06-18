@@ -173,7 +173,7 @@ Nuget Package **NEST** is installed to work with Elastic Search
 - Create a new domain (Elastic Search Domain is like container for our Elastic Search Instance)
 - We chose Number of instance as 1 and Instance Type t2.small.elasticsearch
 - We chose Number Storage Type EBS, EBS VolumeType Magnetic and size 10
-- We chose Public access and somain template as Allow Open Access to the domain
+- We chose Public access and domain template as Allow Open Access to the domain
 - It provides an Elastic Search endpoint and a Kibana endpoint. Copy the Elastic Search endpoint from Overview tab of the Elastic Search Domain created and add it to Search worker's appsettings.json todo (32)
 
 
@@ -225,7 +225,10 @@ To see what's going on in Elastic Serch when the logs are dumped, we use **Kiban
 
 **AWS Console Steps**
 
-- Go to Service -> Cognito -> Open WebAdvert User Pool and copy Pool Id and App client Id
+- Go to Service -> **Cognito** -> Open WebAdvert User Pool and copy Pool Id and App client Id
 - Go to Manage Identity Pool -> Create Identity Pool (KibanaUsers) and under Authentication providers add Pool Id and App client Id and create pool
 - Note the Role Name and Allow
-- Under IAM - Roles, we can see 2 roles created - CognitoUsersAuth and CognitoUsersUnauth. Copy the Role ARN of CognitoUsersAuth Role
+- Under IAM - Roles, we can see 2 roles created - CognitoKibanaUsersAuth and CognitoKibanaUsersUnauth. Copy the Role ARN of CognitoKibanaUsersAuth Role
+- Go to Service -> **ElasticSearchSErvice** -> Create a new Domain (wevadvertslogs) todo (35 -4:16)
+- Cloose public access and enable Amazon Cognito for Authentication -> Choose WebAdevert User pool -> Choose KibanaUsers Identity Pool -> Choose domain template as Allow Open Access to the domain
+- Pick the Role ARN of CognitoKibanaUsersAuth Role and under Add or edit access policy json AWS uder Principal section is '*' by default, replace it with the Role ARN of CognitoKibanaUsersAuth Role. This mens only these users can aceess Kibana
