@@ -3,6 +3,7 @@ using Nest;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WebAdvert.SearchWorker.Models;
 
 namespace WebAdvert.SearchWorker
 {
@@ -17,9 +18,7 @@ namespace WebAdvert.SearchWorker
                 var url = config.GetSection("ES").GetValue<string>("url");
                 var settings = new ConnectionSettings(new Uri(url))
                     .DefaultIndex("adverts")
-                    //.DefaultTypeName("advert")
-                    //.DefaultMappingFor<AdvertType>(m => m.IdProperty(x => x.Id))
-                    ;
+                    .DefaultMappingFor<AdvertType>(m => m.IdProperty(x => x.Id));
                 _client = new ElasticClient(settings);
             }
 

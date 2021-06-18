@@ -3,3 +3,10 @@ C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdv
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\obj\Debug\netcoreapp3.1\WebAdvert.SearchWorker.csprojAssemblyReference.cache
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\obj\Debug\netcoreapp3.1\WebAdvert.SearchWorker.AssemblyInfoInputs.cache
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\obj\Debug\netcoreapp3.1\WebAdvert.SearchWorker.AssemblyInfo.cs
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\bin\Debug\netcoreapp3.1\WebAdvert.SearchWorker.pdb
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\bin\Debug\netcoreapp3.1\AdvertAPI.Models.dll
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\bin\Debug\netcoreapp3.1\AdvertAPI.Models.pdb
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\obj\Debug\netcoreapp3.1\WebAdvert.SearchWorker.csproj.CoreCompileInputs.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\obj\Debug\netcoreapp3.1\WebAdvert.SearchWorker.csproj.CopyComplete
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\obj\Debug\netcoreapp3.1\WebAdvert.SearchWorker.dll
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.SearchWorker\WebAdvert.SearchWorker\obj\Debug\netcoreapp3.1\WebAdvert.SearchWorker.pdb
