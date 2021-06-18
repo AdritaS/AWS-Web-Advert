@@ -6,7 +6,7 @@ Getting started with AWS. This project has been created as a practice along with
 The VPC (Private infastructure) is divided into 2 subnets.
 
 - **Private Subnet** - (Not accessible from internet)
-   This includes Microservice (Advert.API), Dynamo DB, Elastic Search (Search.API & Search.Worker-AWS Lamda ), SNS (Messaging)
+   This includes Microservice (Advert.API), Dynamo DB, Elastic Search (Search.API & Search.Worker-AWS Lambda ), SNS (Messaging)
     
 
 - **Public Subnet** - (Accessible from internet)
@@ -99,7 +99,7 @@ This is a ASP.NET Core WebAPI Application. It connects with DynamoDB database.
 
 The Microservice has the following enpoints:
 
-- An endpoint to add Advertisements. To connect with DynamoDB, AWS Nuget Packages **AWSSDK.DynamoDBv2** has been used. In order to use DataModel with DynamoDB, some attributes from Amazon.DynamoDBv2.DataModel like [DynamoDBTable], [DynamoDBProperty] has been added to it.
+- An endpoint to add Advertisements. To connect with DynamoDB, AWS Nuget Package **AWSSDK.DynamoDBv2** has been used. In order to use DataModel with DynamoDB, some attributes from Amazon.DynamoDBv2.DataModel like [DynamoDBTable], [DynamoDBProperty] has been added to it.
 
 ```
 using (var client = new AmazonDynamoDBClient())
@@ -119,11 +119,10 @@ Exponential Backoff  and  Circuit Breaker has been added using Polly Library.
 
 
 
-## #Microservice 3 - WebAdvert.SearchWorker - This is the API to add Advertisements
+## #Microservice 3 - WebAdvert.SearchWorker - This is the AWS Lambda Function to pickup SNS messages and create document in Elastic Search
 
-_Note_ - **CQRS** (Command Query Responsibility Segregation) is an architectural pattern that separates reading and writing into two different models. It does responsibility segregation for the Command model & Query model. In our Architecture, **#Microservice 2 - Advert.API** is the Command Model (i.e writing Advertisements to database) and **#Microservice 4 - WebAdvert.SearchAPI** is for Query Model (Searching Advertisements for displaying)
-
-This is a AWS Lamda (Serverless Functions). This becomes available only when needed and thus saving the infastructure cost. AWS Lamda can be plugged into SNS directly to pickup messages and then act on it.
+This is a AWS Lambda (Serverless Functions). This becomes available only when needed and thus saving the infastructure cost. AWS Lambda can be plugged into SNS directly to pickup messages and then act on it.
+It is a Class Library .NET Core Project. AWS Nuget Packagea **Amazon.Lambda.Core**, **Amazon.Lambda.SNSEvents** and **Amazon.Lambda.Serialization.Json** have been used.
 
 When Advert API creates an advertisement in database, it sends a message (using **SNS**) to SearchWorker, the SearchWorker creates a new document in **Elastic Search**. When user types for an Advertisement, it sends a request to  #Microservice 4 - WebAdvert.SearchAPI
 
@@ -153,3 +152,15 @@ In Advert.Api, TopicArn is added in appsettings.json.  AWS Nuget Package **AWSSD
              var messageJson = JsonConvert.SerializeObject(message);
              await client.PublishAsync(topicArn, messageJson);
        }
+
+
+**AWS Console Steps for Elastic Search**
+
+- Go to Service -> ElasticSearch
+- Create a new domain (Elastic Search Domain is like container for our Elastic Search Instance)
+- We chose Number of instance as 1 and Instance Type t2.small.elasticsearch
+- We chose Number Storage Type EBS, EBS VolumeType Magnetic and size 10
+- We chose Public access and somain template as Allow Open Access to the domain
+
+
+_Note_ - **CQRS** (Command Query Responsibility Segregation) is an architectural pattern that separates reading and writing into two different models. It does responsibility segregation for the Command model & Query model. In our Architecture, **#Microservice 2 - Advert.API** is the Command Model (i.e writing Advertisements to database) and **#Microservice 4 - WebAdvert.SearchAPI** is for Query Model (Searching Advertisements for displaying)
