@@ -173,8 +173,8 @@ Nuget Package **NEST** is installed to work with Elastic Search
 - Create a new domain (Elastic Search Domain is like container for our Elastic Search Instance)
 - We chose Number of instance as 1 and Instance Type t2.small.elasticsearch
 - We chose Number Storage Type EBS, EBS VolumeType Magnetic and size 10
-- We chose Public access and somain template as Allow Open Access to the domain
-- Copy the endpoint from Overview tab of the Elastic Search Domain created and add it to Search worker's appsettings.json todo (32)
+- We chose Public access and domain template as Allow Open Access to the domain
+- It provides an Elastic Search endpoint and a Kibana endpoint. Copy the Elastic Search endpoint from Overview tab of the Elastic Search Domain created and add it to Search worker's appsettings.json todo (32)
 
 
         public SearchWorker(IElasticClient client)
@@ -207,6 +207,87 @@ Nuget Package **NEST** is installed to work with Elastic Search
   - Go to the created SearchWorker Lambda -> Add Trigger -> Select SNS -> Choose AdvertAPI Topic ARN
   - Upload lambda code - todo (31)
 
+## #Microservice 4 - Search.API - This is the API to search Advertisements
 
 
+        public SearchService(IElasticClient client)
+        {
+            _client = client;
+        }
 
+        public async Task<List<AdvertType>> Search(string keyword)
+        {
+            var searchResponse = await _client.SearchAsync<AdvertType>(search => search.
+                Query(query => query.
+                    Term(field => field.Title, keyword.ToLower())
+                ));
+
+            return searchResponse.Hits.Select(hit => hit.Source).ToList();
+        }
+
+
+## Logging for Microservices in AWS
+
+**Types of Logs**
+
+- Infastructure Logs (eg: CPU/ Bandwidth uses)  - AWS Cloud Watch
+- Security Logs - AWS Cloud Trail
+- Change and Audit Logs (eg: Somebody deletes Elastic Search Domain)- AWS Cloud Trail
+- Application Logs (using NLog or Log4net - via code
+
+Our application send logs to **AWS Cloud Watch**. We can set up AWS Cloud Trail and it will send the logs to AWS Cloud Watch as well. AWS Cloud Watch can be configured to ship all the logs to Amazon Elastic Search Service (This launches a Lamda function automatically - which we don't see . It pics logs from Cloud watch and writes them to ELastic Search. Therefore the role used for AWS Cloud Watch must have access to execute AWS Lambda function)
+
+To see what's going on in Elastic Serch when the logs are dumped, we use **Kibana**. We can use Amazon Cognito to provide autehtication to the users that can access Kibana Client
+
+**AWS Console Steps**
+
+- Go to Service -> **Cognito** -> Open WebAdvert User Pool and copy Pool Id and App client Id
+- Go to Manage Identity Pool -> Create Identity Pool (KibanaUsers) and under Authentication providers add Pool Id and App client Id and create pool
+- Note the Role Name and Allow
+- Under IAM - Roles, we can see 2 roles created - CognitoKibanaUsersAuth and CognitoKibanaUsersUnauth. Copy the Role ARN of CognitoKibanaUsersAuth Role
+- Go to Service -> **ElasticSearchSErvice** -> Create a new Domain (webadvertslogs) todo (35 -4:16)
+- Cloose public access and enable Amazon Cognito for Authentication -> Choose WebAdevert User pool -> Choose KibanaUsers Identity Pool -> Choose domain template as Allow Open Access to the domain
+- Pick the Role ARN of CognitoKibanaUsersAuth Role and under Add or edit access policy json AWS uder Principal section is '*' by default, replace it with the Role ARN of CognitoKibanaUsersAuth Role. This mens only these users can aceess Kibana
+
+**Sending Data to Kibana**
+
+All the logs we create in CloudWatch goes to Log Group
+
+- Go to Service -> **CloudWatch** -> Logs -> Create Log Group (advertapi)
+- Select the created log group and under Actions choose Stream To AmazonElasticSearch Service (todo 35- 8:00)
+- Choose Amazon ES Cluster as the webadvertslogs (elastic search domain that we created for logs), select all default options and Start streaming
+
+
+**Adding Log to #Microservice 4 - Search.API **
+
+To connect with CloudWatch, AWS Nuget Package **AWS.Logger.AspNetCore** has been used.
+
+Add Configuration in **appsettings.json**
+
+    "AWS.Logging": {
+       "Region": "us-xxxx-1",
+       "LogGroup": "advertapi",
+       "LogLevel": {
+         "Default": "Information"
+        }
+     }
+     
+ Add Provider in **startup.cs**
+
+
+      public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+      {
+            loggerFactory.AddAWSProvider(Configuration.GetAWSLoggingConfigSection(),
+                formatter: (loglevel, message, exception) => $"[{DateTime.Now} {loglevel} {message} {exception?.Message} {exception?.StackTrace}");
+      }
+      
+  
+  Add Logger in **controller**
+  
+    private readonly ILogger<SearchController> _logger;
+    
+    public SearchController(ISearchService searchService, ILogger<SearchController> logger)
+    {
+         _logger = logger;
+         _logger.LogInformation("Search controller was called");
+    }
