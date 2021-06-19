@@ -36,3 +36,4 @@ C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.Web\WebAdvert.Web\o
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.Web\WebAdvert.Web\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.Web\WebAdvert.Web\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.cshtml.g.cs
 C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.Web\WebAdvert.Web\obj\Debug\netcoreapp2.2\WebAdvert.Web.genruntimeconfig.cache
+C:\Adrita\Workspace\GitHub\Projects\AWS-Web-Advert\WebAdvert.Web\WebAdvert.Web\obj\Debug\netcoreapp2.2\Razor\Views\Home\Search.cshtml.g.cs

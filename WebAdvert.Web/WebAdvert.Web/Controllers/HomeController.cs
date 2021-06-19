@@ -3,14 +3,29 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAdvert.Web.Models;
+using WebAdvert.Web.Models.Home;
+using WebAdvert.Web.Services;
+using WebAdvert.Web.Services.ServiceClients.SearchApi;
 
 namespace WebAdvert.Web.Controllers
 {
     public class HomeController : Controller
     {
+        public ISearchApiClient _searchApiClient { get; }
+        public IMapper _mapper { get; }
+        public IAdvertApiClient _apiClient { get; }
+
+        public HomeController(ISearchApiClient searchApiClient, IMapper mapper, IAdvertApiClient apiClient)
+        {
+            _searchApiClient = searchApiClient;
+            _mapper = mapper;
+            _apiClient = apiClient;
+        }
+
         [Authorize]
         public IActionResult Index()
         {
@@ -27,5 +42,21 @@ namespace WebAdvert.Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Search(string keyword)
+        {
+            var viewModel = new List<SearchViewModel>();
+
+            var searchResult = await _searchApiClient.Search(keyword).ConfigureAwait(false);
+            searchResult.ForEach(advertDoc =>
+            {
+                var viewModelItem = _mapper.Map<SearchViewModel>(advertDoc);
+                viewModel.Add(viewModelItem);
+            });
+
+            return View("Search", viewModel);
+        }
+
     }
 }

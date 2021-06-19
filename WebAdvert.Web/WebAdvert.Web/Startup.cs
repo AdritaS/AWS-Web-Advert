@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Extensions.Http;
 using WebAdvert.Web.Services;
+using WebAdvert.Web.Services.ServiceClients.SearchApi;
 
 namespace WebAdvert.Web
 {
@@ -48,19 +49,21 @@ namespace WebAdvert.Web
             //services.AddAutoMapper();
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IFileUploader, S3FileUploader>();
-            services.AddTransient<IAdvertApiClient, AdvertApiClient>();
-           // services.AddHttpClient<IAdvertApiClient, AdvertApiClient>();
+          //  services.AddTransient<IAdvertApiClient, AdvertApiClient>();
+           
+            // services.AddHttpClient<IAdvertApiClient, AdvertApiClient>();
             //.AddPolicyHandler(GetRetryPolicy())
             // .AddPolicyHandler(GetCircuitBreakerPatternPolicy());
 
-            //services.AddHttpClient<ISearchApiClient, SearchApiClient>().AddPolicyHandler(GetRetryPolicy())
-            //    .AddPolicyHandler(GetCircuitBreakerPatternPolicy());
 
             services.AddHttpClient<IAdvertApiClient, AdvertApiClient>().AddPolicyHandler(GetRetryPolicy())
               .AddPolicyHandler(GetCircuitBreakerPatternPolicy());
 
-            //services.AddHttpClient<ISearchApiClient, SearchApiClient>().AddPolicyHandler(GetRetryPolicy())
-            //    .AddPolicyHandler(GetCircuitBreakerPatternPolicy());
+            services.AddHttpClient<ISearchApiClient, SearchApiClient>();
+            //.AddPolicyHandler(GetRetryPolicy())
+              // .AddPolicyHandler(GetCircuitBreakerPatternPolicy());
+
+
         }
 
         private IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPatternPolicy()
