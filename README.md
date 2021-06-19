@@ -122,6 +122,8 @@ It has the following pages:
 
 - Search Management (using #Microservice 4 - Search.API)
 
+The Home page has a search box. When we type something Microservice 4 - Search.API is called which in turn gets a list from Elastic Search Container.
+
 **AWS Console Steps for S3 Bucket**
 
 - Go to Service -> Amazon S3
