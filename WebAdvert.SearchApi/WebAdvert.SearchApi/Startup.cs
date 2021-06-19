@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WebAdvert.SearchApi.Extensions;
+using WebAdvert.SearchApi.Services;
 
 namespace WebAdvert.SearchApi
 {
@@ -26,10 +28,13 @@ namespace WebAdvert.SearchApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddElasticSearch(Configuration);
+            services.AddTransient<ISearchService, SearchService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -46,6 +51,9 @@ namespace WebAdvert.SearchApi
             {
                 endpoints.MapControllers();
             });
+
+            loggerFactory.AddAWSProvider(Configuration.GetAWSLoggingConfigSection(),
+                formatter: (loglevel, message, exception) => $"[{DateTime.Now} {loglevel} {message} {exception?.Message} {exception?.StackTrace}");
         }
     }
 }
