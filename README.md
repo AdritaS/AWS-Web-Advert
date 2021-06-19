@@ -64,6 +64,39 @@ This is a ASP.NET Core MVC Web Application.
 It has the following pages:
 
 - SignUp, Login and Confirm Password pages which connects with AWS Cognito. AWS Nuget Packages has been used **Amazon.AspNetCore.Identity.Cognito** and **Amazon.Extensions.CognitoAuthentication**
+
+      private readonly CognitoUserPool _pool;
+      private readonly SignInManager<CognitoUser> _signInManager;
+      private readonly UserManager<CognitoUser> _userManager;
+      
+      public AccountsController(SignInManager<CognitoUser> signInManager,
+            UserManager<CognitoUser> userManager, CognitoUserPool pool)
+      {
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _pool = pool;
+      }
+      
+       [HttpPost]
+        public async Task<IActionResult> SignUp(SignUpModel model)
+        {
+                var user = _pool.GetUser(model.Email);
+                if (user.Status != null)
+                {
+                    ModelState.AddModelError("UserExists", "User with this email id already exists");
+                    return View(model);
+                }
+                user.Attributes.Add("name", model.Email);
+
+                var createdUser = await _userManager.CreateAsync(user, model.Password);
+
+                if (createdUser.Succeeded)
+                {
+                    return RedirectToAction("Confirm");
+                }              
+            return View();
+        }
+        
 - Advertisement Management page to create a new Advertisement (using #Microservice 2 - Advert.API) and s3 Bucket to upload image. AWS Nuget Packages **AWSSDK.S3** has been used.
 
 ```
@@ -86,6 +119,8 @@ It has the following pages:
                 return response.HttpStatusCode == HttpStatusCode.OK;
     }
 ```
+
+- Search Management (using #Microservice 4 - Search.API)
 
 **AWS Console Steps for S3 Bucket**
 
@@ -258,7 +293,7 @@ All the logs we create in CloudWatch goes to Log Group
 - Choose Amazon ES Cluster as the webadvertslogs (elastic search domain that we created for logs), select all default options and Start streaming
 
 
-**Adding Log to #Microservice 4 - Search.API **
+**Adding Log to #Microservice 4 - Search.API**
 
 To connect with CloudWatch, AWS Nuget Package **AWS.Logger.AspNetCore** has been used.
 
