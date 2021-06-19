@@ -233,7 +233,7 @@ Nuget Package **NEST** is installed to work with Elastic Search
 - Infastructure Logs (eg: CPU/ Bandwidth uses)  - AWS Cloud Watch
 - Security Logs - AWS Cloud Trail
 - Change and Audit Logs (eg: Somebody deletes Elastic Search Domain)- AWS Cloud Trail
-- Application Logs - via code
+- Application Logs (using NLog or Log4net - via code
 
 Our application send logs to **AWS Cloud Watch**. We can set up AWS Cloud Trail and it will send the logs to AWS Cloud Watch as well. AWS Cloud Watch can be configured to ship all the logs to Amazon Elastic Search Service (This launches a Lamda function automatically - which we don't see . It pics logs from Cloud watch and writes them to ELastic Search. Therefore the role used for AWS Cloud Watch must have access to execute AWS Lambda function)
 
@@ -256,3 +256,38 @@ All the logs we create in CloudWatch goes to Log Group
 - Go to Service -> **CloudWatch** -> Logs -> Create Log Group (advertapi)
 - Select the created log group and under Actions choose Stream To AmazonElasticSearch Service (todo 35- 8:00)
 - Choose Amazon ES Cluster as the webadvertslogs (elastic search domain that we created for logs), select all default options and Start streaming
+
+
+**Adding Log to #Microservice 4 - Search.API **
+
+To connect with CloudWatch, AWS Nuget Package **AWS.Logger.AspNetCore** has been used.
+
+Add Configuration in **appsettings.json**
+
+    "AWS.Logging": {
+       "Region": "us-xxxx-1",
+       "LogGroup": "advertapi",
+       "LogLevel": {
+         "Default": "Information"
+        }
+     }
+     
+ Add Provider in **startup.cs**
+
+
+      public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+      {
+            loggerFactory.AddAWSProvider(Configuration.GetAWSLoggingConfigSection(),
+                formatter: (loglevel, message, exception) => $"[{DateTime.Now} {loglevel} {message} {exception?.Message} {exception?.StackTrace}");
+      }
+      
+  
+  Add Logger in **controller**
+  
+    private readonly ILogger<SearchController> _logger;
+    
+    public SearchController(ISearchService searchService, ILogger<SearchController> logger)
+    {
+         _logger = logger;
+         _logger.LogInformation("Search controller was called");
+    }
