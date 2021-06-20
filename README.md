@@ -99,6 +99,12 @@ It has the following pages:
         
 - Advertisement Management page to create a new Advertisement (using #Microservice 2 - Advert.API) and s3 Bucket to upload image. AWS Nuget Packages **AWSSDK.S3** has been used.
 
+
+**AWS Console Steps for S3 Bucket**
+
+- Go to Service -> Amazon S3
+- Create a new bucket
+
 ```
      var bucketName = _configuration.GetValue<string>("ImageBucket");
 
@@ -120,14 +126,24 @@ It has the following pages:
     }
 ```
 
+- List Advertisement Page
+
+This page displays all Advertisement by connect with #Microservice 2 Advert.API. To display the images (from S3 bucket) associated with each advertisement, following items are needed to be setup.
+
+S3 bucket does't have read permission to the images who aren't logged in to AWS Console, also S3 doesn't provide caching. Thefore we need to setup Amazon CloudFront
+
+**AWS Console Steps for CloudFront**
+
+- Go to Service -> CloudFront
+- Create new Distribution -> Get Started on Web -> Set S3 bucket name in the Original Domain Name -> Choose Restrict Bucket Access
+- Open the created Distribution and copy the Domain Name to implement it on our website.
+
+We put the Domain name in config file of  WebAdvert.Web appsettings.json of 
+
 - Search Management (using #Microservice 4 - Search.API)
 
 The Home page has a search box. When we type something Microservice 4 - Search.API is called which in turn gets a list from Elastic Search Container.
 
-**AWS Console Steps for S3 Bucket**
-
-- Go to Service -> Amazon S3
-- Create a new bucket
 
 ## #Microservice 2 - Advert.API - This is the API to add Advertisements
 
