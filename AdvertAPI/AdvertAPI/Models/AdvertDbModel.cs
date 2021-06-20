@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AdvertAPI.Models
 {
     [DynamoDBTable("Adverts")]
-    public class AdvertModelDb
+    public class AdvertDbModel
     {
         [DynamoDBHashKey]
         public string Id { get; set; }

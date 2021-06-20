@@ -49,19 +49,20 @@ namespace WebAdvert.Web
             //services.AddAutoMapper();
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IFileUploader, S3FileUploader>();
-          //  services.AddTransient<IAdvertApiClient, AdvertApiClient>();
-           
+            //  services.AddTransient<IAdvertApiClient, AdvertApiClient>();
+
             // services.AddHttpClient<IAdvertApiClient, AdvertApiClient>();
             //.AddPolicyHandler(GetRetryPolicy())
             // .AddPolicyHandler(GetCircuitBreakerPatternPolicy());
 
 
-            services.AddHttpClient<IAdvertApiClient, AdvertApiClient>().AddPolicyHandler(GetRetryPolicy())
-              .AddPolicyHandler(GetCircuitBreakerPatternPolicy());
-
-            services.AddHttpClient<ISearchApiClient, SearchApiClient>();
+            services.AddHttpClient<IAdvertApiClient, AdvertApiClient>();
             //.AddPolicyHandler(GetRetryPolicy())
-              // .AddPolicyHandler(GetCircuitBreakerPatternPolicy());
+            //  .AddPolicyHandler(GetCircuitBreakerPatternPolicy());
+
+            services.AddHttpClient<ISearchApiClient, SearchApiClient>()
+            .AddPolicyHandler(GetRetryPolicy())
+               .AddPolicyHandler(GetCircuitBreakerPatternPolicy());
 
 
         }

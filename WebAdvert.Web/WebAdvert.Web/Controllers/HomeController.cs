@@ -17,19 +17,23 @@ namespace WebAdvert.Web.Controllers
     {
         public ISearchApiClient _searchApiClient { get; }
         public IMapper _mapper { get; }
-        public IAdvertApiClient _apiClient { get; }
+        public IAdvertApiClient _advertApiClient { get; }
 
         public HomeController(ISearchApiClient searchApiClient, IMapper mapper, IAdvertApiClient apiClient)
         {
             _searchApiClient = searchApiClient;
             _mapper = mapper;
-            _apiClient = apiClient;
+            _advertApiClient = apiClient;
         }
 
         [Authorize]
-        public IActionResult Index()
+        [ResponseCache(Duration = 60)]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var allAds = await _advertApiClient.GetAllAsync().ConfigureAwait(false);
+            var allViewModels = allAds.Select(x => _mapper.Map<IndexViewModel>(x));
+
+            return View(allViewModels);
         }
 
         public IActionResult Privacy()

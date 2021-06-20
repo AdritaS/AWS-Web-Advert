@@ -10,7 +10,7 @@ namespace AdvertAPI.Models
     {
         public AdverProfile()
         {
-            CreateMap<AdvertModel, AdvertModelDb>();
+            CreateMap<AdvertModel, AdvertDbModel>().ReverseMap();
         }
     }
 }

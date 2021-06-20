@@ -6,6 +6,7 @@ using AdvertAPI.Models;
 using AdvertAPI.Models.Messages;
 using AdvertAPI.Services;
 using Amazon.SimpleNotificationService;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -83,6 +84,16 @@ namespace AdvertAPI.Controllers
                 var messageJson = JsonConvert.SerializeObject(message);
                 await client.PublishAsync(topicArn, messageJson);
             }
+
+        }
+
+        [HttpGet]
+        [Route("all")]
+        [ProducesResponseType(200)]
+        [EnableCors("AllOrigin")]
+        public async Task<IActionResult> All()
+        {
+            return new JsonResult(await _advertStorageService.GetAllAsync());
         }
     }
 }

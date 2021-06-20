@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@*@model IEnumerable<WebAdvert.Web.Models.Home.IndexViewModel>*@
+@model IEnumerable<WebAdvert.Web.Models.Home.IndexViewModel>
 
 <div class="row  pt-2 pb-2" id="Search">
     <div class="col-md-2 col-sm-4 text-left">
@@ -21,11 +21,11 @@
         </form>
     </div>
 
-    @*<div class="col-md-12 mt-3">
-            @foreach (var viewModel in Model)
-            {
-                await Html.RenderPartialAsync("AdvertCard", viewModel);
-            }
-        </div>*@
+    <div class="col-md-12 mt-3">
+        @foreach (var viewModel in Model)
+        {
+            await Html.RenderPartialAsync("AdvertCard", viewModel);
+        }
+    </div>
 </div>
 @*@Html.Partial("AdvertDetail")*@

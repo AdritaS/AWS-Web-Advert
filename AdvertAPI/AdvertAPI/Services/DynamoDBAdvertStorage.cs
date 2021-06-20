@@ -18,7 +18,7 @@ namespace AdvertAPI.Services
         }
         public async Task<string> Add(AdvertModel model)
         {
-            var dbModel = _mapper.Map<AdvertModelDb>(model);
+            var dbModel = _mapper.Map<AdvertDbModel>(model);
             dbModel.Id = Guid.NewGuid().ToString();
             dbModel.CreationDate = DateTime.UtcNow;
             dbModel.Status = AdvertStatus.Pending;
@@ -57,7 +57,7 @@ namespace AdvertAPI.Services
             {
                 using (var context = new DynamoDBContext(client))
                 {
-                    var record = await context.LoadAsync<AdvertModelDb>(model.Id);
+                    var record = await context.LoadAsync<AdvertDbModel>(model.Id);
                     if(record == null)
                     {
                         throw new KeyNotFoundException("Record Not Found");
@@ -79,12 +79,27 @@ namespace AdvertAPI.Services
             {
                 using (var context = new DynamoDBContext(client))
                 {
-                    var dbModel = await context.LoadAsync<AdvertModelDb>(id);
+                    var dbModel = await context.LoadAsync<AdvertDbModel>(id);
                     if (dbModel != null) return _mapper.Map<AdvertModel>(dbModel);
                 }
             }
 
             throw new KeyNotFoundException();
+        }
+
+
+        public async Task<List<AdvertModel>> GetAllAsync()
+        {
+            using (var client = new AmazonDynamoDBClient())
+            {
+                using (var context = new DynamoDBContext(client))
+                {
+                    var scanResult =
+                        await context.ScanAsync<AdvertDbModel>(new List<ScanCondition>()).GetNextSetAsync();
+                    return scanResult.Select(item => _mapper.Map<AdvertModel>(item)).ToList();
+                    //return _mapper.Map<List<AdvertModel>>(scanResult);
+                }
+            }
         }
     }
 }
