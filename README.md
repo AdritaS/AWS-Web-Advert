@@ -368,3 +368,15 @@ It can expose AWS Lambda functions as APIs, supports authentication, web firewal
 - Click on Create Resource and choose Integration Type as HTTP Proxy and add the Endpoint as http:// Copied Nomain Name from EC2 instance / {proxy} and Save
 - API is created, Go to ACtions menu and click on Deploy API (It can be deployed as staging/ production etc by adding the stage name and clicking on Deploy
 - Once we deploy, we can see the Invoke URL, we can use this URL as the endpoint to get the advertisements
+
+todo 43 44 45
+
+## Securing public API with JWT
+
+Whan we deploy a microservice in Public subnet (i.e a client can directly access the microservice without API Gateway) and we need to perform authentication on the microservice itself, we can use Json Web Token (JWT) Authentication to validate the token we receive from client.
+
+**Workflow**
+
+Client logins to AWS cognito, Cognito sends Token to the  Client. Client makes a call to the microservice with the token, microservice validates the token using Cognito send sends the result back to the client.
+
+todo - 46(3:00) 47
