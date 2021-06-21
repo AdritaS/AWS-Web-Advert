@@ -380,3 +380,10 @@ Whan we deploy a microservice in Public subnet (i.e a client can directly access
 Client logins to AWS cognito, Cognito sends Token to the  Client. Client makes a call to the microservice with the token, microservice validates the token using Cognito send sends the result back to the client.
 
 todo - 46(3:00) 47
+
+
+## Microservice Discovery
+
+In a microservices application, the set of running service instances changes dynamically. Instances have dynamically assigned network locations. Consequently, in order for a client to make a request to a service it must use a service‑discovery mechanism. A key part of service discovery is the service registry.
+
+To create a dynamic documentation, we use **Swagger**
