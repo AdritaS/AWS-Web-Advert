@@ -344,3 +344,15 @@ Add Configuration in **appsettings.json**
          _logger = logger;
          _logger.LogInformation("Search controller was called");
     }
+    
+## API Gateway in AWS
+
+In Microservice world, clients (browser, Mobile App) doesn't call the api services (microservices) directly. They call the Load balancer. Only load balancer is public and visible to the clients, the api services are in private network (private subnet). This is suitable for small microservice based applications
+
+For larger microservice based applications **API Gateway** is suitable, it is something between the clients and Load Balancer. Here API Gateway is public,  Load balancer and services are private. Authentication will be only in API Gateway and not on all the services ( saves time and effort if we have 20 microservices )
+
+**AWS API Gateway Service**
+
+Amazon API Gateway is an AWS service for creating, publishing, maintaining, monitoring, and securing REST, HTTP, and WebSocket APIs at any scale. API developers can create APIs that access AWS or other web services, as well as data stored in the AWS Cloud.
+
+It can expose AWS Lambda functions as APIs, supports authentication, web firewall etc to reduce security risks. It also supports stages of API Development eg. Staging and Production
