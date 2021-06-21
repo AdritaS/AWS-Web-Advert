@@ -356,3 +356,15 @@ For larger microservice based applications **API Gateway** is suitable, it is so
 Amazon API Gateway is an AWS service for creating, publishing, maintaining, monitoring, and securing REST, HTTP, and WebSocket APIs at any scale. API developers can create APIs that access AWS or other web services, as well as data stored in the AWS Cloud.
 
 It can expose AWS Lambda functions as APIs, supports authentication, web firewall etc to reduce security risks. It also supports stages of API Development eg. Staging and Production
+
+**Creating Revere proxy API using AWS API Gateway**
+
+**AWS Console Steps**
+
+- Go to EC2 instance of the AdvertAPI microservice we deployed and copy the public DNS (todo 42 , 0:23)
+- Go to Service -> **API Gateway** 
+- Create API -> Give a name (eg : Public Web API Proxy) and choose endpoint type Regional/Edge optimized -> Create API
+- The created API is empty now, Go To Actions -> Create Resource -> Add name (eg: proxy) and check Enable API Gateway CORS
+- Click on Create Resource and choose Integration Type as HTTP Proxy and add the Endpoint as http:// Copied Nomain Name from EC2 instance / {proxy} and Save
+- API is created, Go to ACtions menu and click on Deploy API (It can be deployed as staging/ production etc by adding the stage name and clicking on Deploy
+- Once we deploy, we can see the Invoke URL, we can use this URL as the endpoint to get the advertisements
