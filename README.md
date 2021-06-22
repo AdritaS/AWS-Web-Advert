@@ -1,6 +1,9 @@
 # AWS-Web-Advert
 Getting started with AWS. This project has been created as a practice along with this <a href="https://www.udemy.com/course/build-microservices-with-aspnet-core-amazon-web-services/">Udemy Course </a>
 
+![image](https://user-images.githubusercontent.com/29271635/122780086-202e5200-d2cc-11eb-8ba8-bd8063bdfe53.png)
+
+
 ### Project Infastructure
 
 The VPC (Private infastructure) is divided into 2 subnets.
@@ -386,4 +389,30 @@ todo - 46(3:00) 47
 
 In a microservices application, the set of running service instances changes dynamically. Instances have dynamically assigned network locations. Consequently, in order for a client to make a request to a service it must use a service‑discovery mechanism. A key part of service discovery is the service registry.
 
-To create a dynamic documentation, we use **Swagger**
+To create a dynamic documentation, we use **Swagger**. To use it in Advert.API Nuget Packages **Swashbuckle.Aspnetcore** has been used and in Startup.cs we add the following:
+
+      services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Web Advertisement Apis",
+                    Version = "version 1",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Adrita Sharma",
+                        Email = "adritasharma@gmail.com"
+                    }
+                });
+      });
+      
+      
+       app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Advert Api");
+       });
+       
+
+When the microservice is built, it will provide SDK. It contains models that clients can directly access. Tools like Autorest and SwaggerGen can be used generates client libraries for accessing RESTful web services.
+
+To create client models, Create a new .NET Core Project in Visual Studio -> Right click on Project > Click Add -> Choose Rest API Client -> Choose Swagger URL is the Metadata File -> Add the swagger utl (eg: https://localhost:44364/swagger/v1/swagger.json). This will generate the models.
+
