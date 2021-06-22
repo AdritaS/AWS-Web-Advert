@@ -433,4 +433,37 @@ In a microservices application, the set of running service instances changes dyn
 
 We can register our service instance (eg ec2 instance where advertapi is deployed) when via AWS Command line tool (todo 52 middle) as well as .Net core
 
+**Using .NET Core to register an instance of microservice**
+
+We can use the startup.cs (Configure method) or program.cs (main method) of the microservice (advert.api) to add the code that should be executed once. AWS Nuget Packages **AWSSDK.EC2***  and **AWSSDK.ServiceDiscovery** have been used.
+
+We have to copy the Service ID of the CloudMap namespace that we created and add it to appsettings.json
+
+    {
+       "CloudMapNamespaceSeviceId": "srv-xxxxxxxxxxxxxxxx"
+    }
+
+    public async Task RegisterToCloudMap()
+    {
+          string serviceId = Configuration.GetValue<string>("CloudMapNamespaceSeviceId");
+
+          var instanceId = EC2InstanceMetadata.InstanceId;
+          if(!string.IsNullOrEmpty(instanceId))
+          {
+                var ipv4 = EC2InstanceMetadata.PrivateIpAddress;
+
+                var client = new AmazonServiceDiscoveryClient();
+
+                await client.RegisterInstanceAsync(new RegisterInstanceRequest()
+                {
+                    InstanceId = instanceId,
+                    ServiceId = serviceId,
+                    Attributes = new Dictionary<string, string>()
+                    {
+                        {"AWS_INSTANCE_IPV4", ipv4 },
+                        {"AWS_INSTANCE_PORT", "80" },
+                    }
+                });
+          }
+    }
 
