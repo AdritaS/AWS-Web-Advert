@@ -13,6 +13,11 @@ using Microsoft.Extensions.Options;
 using AutoMapper;
 using AdvertAPI.Services;
 using AdvertAPI.HealthChecks;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
+using Amazon.Util;
+using Amazon.ServiceDiscovery;
+using Amazon.ServiceDiscovery.Model;
 
 namespace AdvertAPI
 {
@@ -32,6 +37,20 @@ namespace AdvertAPI
             services.AddTransient<IAdvertStorageService, DynamoDBAdvertStorage>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddHealthChecks().AddCheck<StorageHealthCheck>("Storage");
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Web Advertisement Apis",
+                    Version = "version 1",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Adrita Sharma",
+                        Email = "adritasharma@gmail.com"
+                    }
+                });
+            });
+
             //services.AddHealthChecks(checks =>
             //{
             //    checks.AddCheck<StorageHealthCheck>("Storage", new System.TimeSpan(0, 1, 0);
@@ -39,7 +58,7 @@ namespace AdvertAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public async Task Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -53,7 +72,41 @@ namespace AdvertAPI
 
             app.UseHttpsRedirection();
             app.UseHealthChecks("/health");
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Advert Api");
+            });
+            app.UseStaticFiles();
+
+            await RegisterToCloudMap();
+
             app.UseMvc();
+        }
+
+        public async Task RegisterToCloudMap()
+        {
+            string serviceId = Configuration.GetValue<string>("CloudMapNamespaceSeviceId");
+
+            var instanceId = EC2InstanceMetadata.InstanceId;
+            if(!string.IsNullOrEmpty(instanceId))
+            {
+                var ipv4 = EC2InstanceMetadata.PrivateIpAddress;
+
+                var client = new AmazonServiceDiscoveryClient();
+
+                await client.RegisterInstanceAsync(new RegisterInstanceRequest()
+                {
+                    InstanceId = instanceId,
+                    ServiceId = serviceId,
+                    Attributes = new Dictionary<string, string>()
+                    {
+                        {"AWS_INSTANCE_IPV4", ipv4 },
+                        {"AWS_INSTANCE_PORT", "80" },
+                    }
+                });
+            }
+
         }
     }
 }

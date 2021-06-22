@@ -107,6 +107,14 @@
               "target": "Package",
               "version": "[3.3.101.59, )"
             },
+            "AWSSDK.EC2": {
+              "target": "Package",
+              "version": "[3.3.2, )"
+            },
+            "AWSSDK.ServiceDiscovery": {
+              "target": "Package",
+              "version": "[3.3.2, )"
+            },
             "AWSSDK.SimpleNotificationService": {
               "target": "Package",
               "version": "[3.3.101.5, )"
@@ -139,6 +147,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[2.2.3, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.1.4, )"
             }
           },
           "imports": [
