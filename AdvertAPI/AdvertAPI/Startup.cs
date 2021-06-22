@@ -58,7 +58,7 @@ namespace AdvertAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async Task Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -79,7 +79,7 @@ namespace AdvertAPI
             });
             app.UseStaticFiles();
 
-            await RegisterToCloudMap();
+            //await RegisterToCloudMap();
 
             app.UseMvc();
         }
