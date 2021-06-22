@@ -1,6 +1,9 @@
 # AWS-Web-Advert
 Getting started with AWS. This project has been created as a practice along with this <a href="https://www.udemy.com/course/build-microservices-with-aspnet-core-amazon-web-services/">Udemy Course </a>
 
+![image](https://user-images.githubusercontent.com/29271635/122780086-202e5200-d2cc-11eb-8ba8-bd8063bdfe53.png)
+
+
 ### Project Infastructure
 
 The VPC (Private infastructure) is divided into 2 subnets.
@@ -64,7 +67,46 @@ This is a ASP.NET Core MVC Web Application.
 It has the following pages:
 
 - SignUp, Login and Confirm Password pages which connects with AWS Cognito. AWS Nuget Packages has been used **Amazon.AspNetCore.Identity.Cognito** and **Amazon.Extensions.CognitoAuthentication**
+
+      private readonly CognitoUserPool _pool;
+      private readonly SignInManager<CognitoUser> _signInManager;
+      private readonly UserManager<CognitoUser> _userManager;
+      
+      public AccountsController(SignInManager<CognitoUser> signInManager,
+            UserManager<CognitoUser> userManager, CognitoUserPool pool)
+      {
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _pool = pool;
+      }
+      
+       [HttpPost]
+        public async Task<IActionResult> SignUp(SignUpModel model)
+        {
+                var user = _pool.GetUser(model.Email);
+                if (user.Status != null)
+                {
+                    ModelState.AddModelError("UserExists", "User with this email id already exists");
+                    return View(model);
+                }
+                user.Attributes.Add("name", model.Email);
+
+                var createdUser = await _userManager.CreateAsync(user, model.Password);
+
+                if (createdUser.Succeeded)
+                {
+                    return RedirectToAction("Confirm");
+                }              
+            return View();
+        }
+        
 - Advertisement Management page to create a new Advertisement (using #Microservice 2 - Advert.API) and s3 Bucket to upload image. AWS Nuget Packages **AWSSDK.S3** has been used.
+
+
+**AWS Console Steps for S3 Bucket**
+
+- Go to Service -> Amazon S3
+- Create a new bucket
 
 ```
      var bucketName = _configuration.GetValue<string>("ImageBucket");
@@ -87,10 +129,24 @@ It has the following pages:
     }
 ```
 
-**AWS Console Steps for S3 Bucket**
+- List Advertisement Page
 
-- Go to Service -> Amazon S3
-- Create a new bucket
+This page displays all Advertisement by connect with #Microservice 2 Advert.API. To display the images (from S3 bucket) associated with each advertisement, following items are needed to be setup.
+
+S3 bucket does't have read permission to the images who aren't logged in to AWS Console, also S3 doesn't provide caching. Thefore we need to setup Amazon CloudFront
+
+**AWS Console Steps for CloudFront**
+
+- Go to Service -> CloudFront
+- Create new Distribution -> Get Started on Web -> Set S3 bucket name in the Original Domain Name -> Choose Restrict Bucket Access
+- Open the created Distribution and copy the Domain Name to implement it on our website.
+
+We put the Domain name in config file of  WebAdvert.Web appsettings.json of 
+
+- Search Management (using #Microservice 4 - Search.API)
+
+The Home page has a search box. When we type something Microservice 4 - Search.API is called which in turn gets a list from Elastic Search Container.
+
 
 ## #Microservice 2 - Advert.API - This is the API to add Advertisements
 
@@ -210,20 +266,20 @@ Nuget Package **NEST** is installed to work with Elastic Search
 ## #Microservice 4 - Search.API - This is the API to search Advertisements
 
 
-        public SearchService(IElasticClient client)
-        {
-            _client = client;
-        }
+     public SearchService(IElasticClient client)
+     {
+         _client = client;
+     }
 
-        public async Task<List<AdvertType>> Search(string keyword)
-        {
-            var searchResponse = await _client.SearchAsync<AdvertType>(search => search.
-                Query(query => query.
-                    Term(field => field.Title, keyword.ToLower())
-                ));
+     public async Task<List<AdvertType>> Search(string keyword)
+     {
+         var searchResponse = await _client.SearchAsync<AdvertType>(search => search.
+             Query(query => query.
+                 Term(field => field.Title, keyword.ToLower())
+             ));
 
-            return searchResponse.Hits.Select(hit => hit.Source).ToList();
-        }
+         return searchResponse.Hits.Select(hit => hit.Source).ToList();
+     }
 
 
 ## Logging for Microservices in AWS
@@ -258,7 +314,7 @@ All the logs we create in CloudWatch goes to Log Group
 - Choose Amazon ES Cluster as the webadvertslogs (elastic search domain that we created for logs), select all default options and Start streaming
 
 
-**Adding Log to #Microservice 4 - Search.API **
+**Adding Log to #Microservice 4 - Search.API**
 
 To connect with CloudWatch, AWS Nuget Package **AWS.Logger.AspNetCore** has been used.
 
@@ -291,3 +347,192 @@ Add Configuration in **appsettings.json**
          _logger = logger;
          _logger.LogInformation("Search controller was called");
     }
+    
+## API Gateway in AWS
+
+In Microservice world, clients (browser, Mobile App) doesn't call the api services (microservices) directly. They call the Load balancer. Only load balancer is public and visible to the clients, the api services are in private network (private subnet). This is suitable for small microservice based applications
+
+For larger microservice based applications **API Gateway** is suitable, it is something between the clients and Load Balancer. Here API Gateway is public,  Load balancer and services are private. Authentication will be only in API Gateway and not on all the services ( saves time and effort if we have 20 microservices )
+
+**AWS API Gateway Service**
+
+Amazon API Gateway is an AWS service for creating, publishing, maintaining, monitoring, and securing REST, HTTP, and WebSocket APIs at any scale. API developers can create APIs that access AWS or other web services, as well as data stored in the AWS Cloud.
+
+It can expose AWS Lambda functions as APIs, supports authentication, web firewall etc to reduce security risks. It also supports stages of API Development eg. Staging and Production
+
+**Creating Revere proxy API using AWS API Gateway**
+
+**AWS Console Steps**
+
+- Go to EC2 instance of the AdvertAPI microservice we deployed and copy the public DNS (todo 42 , 0:23)
+- Go to Service -> **API Gateway** 
+- Create API -> Give a name (eg : Public Web API Proxy) and choose endpoint type Regional/Edge optimized -> Create API
+- The created API is empty now, Go To Actions -> Create Resource -> Add name (eg: proxy) and check Enable API Gateway CORS
+- Click on Create Resource and choose Integration Type as HTTP Proxy and add the Endpoint as http:// Copied Nomain Name from EC2 instance / {proxy} and Save
+- API is created, Go to ACtions menu and click on Deploy API (It can be deployed as staging/ production etc by adding the stage name and clicking on Deploy
+- Once we deploy, we can see the Invoke URL, we can use this URL as the endpoint to get the advertisements
+
+todo 43 44 45
+
+## Securing public API with JWT
+
+Whan we deploy a microservice in Public subnet (i.e a client can directly access the microservice without API Gateway) and we need to perform authentication on the microservice itself, we can use Json Web Token (JWT) Authentication to validate the token we receive from client.
+
+**Workflow**
+
+Client logins to AWS cognito, Cognito sends Token to the  Client. Client makes a call to the microservice with the token, microservice validates the token using Cognito send sends the result back to the client.
+
+todo - 46(3:00) 47
+
+
+
+## API Documentation Microservice Discovery
+
+To create a dynamic documentation, we use **Swagger**. To use it in Advert.API Nuget Packages **Swashbuckle.Aspnetcore** has been used and in Startup.cs we add the following:
+
+      services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Web Advertisement Apis",
+                    Version = "version 1",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Adrita Sharma",
+                        Email = "adritasharma@gmail.com"
+                    }
+                });
+      });
+      
+      
+       app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Advert Api");
+       });
+       
+
+When the microservice is built, it will provide SDK. It contains models that clients can directly access. Tools like Autorest and SwaggerGen can be used generates client libraries for accessing RESTful web services.
+
+To create client models, Open .NET Core Project in Visual Studio -> Right click on Project > Click Add -> Choose Rest API Client -> Choose Swagger URL is the Metadata File -> Add the swagger url (eg: https://localhost:44364/swagger/v1/swagger.json). This will generate the models.
+
+
+## Microservice Discovery
+
+In a microservices application, the set of running service instances changes dynamically. Instances have dynamically assigned network locations. Consequently, in order for a client to make a request to a service it must use a service‑discovery mechanism. A key part of service discovery is the service registry.
+
+- We can setup our own Service Discovery infastructure using Consul tool. It is cloud independent, can be setup in AWS, Azure etc.
+- We can also use managed AWS service - **AWS Cloud Map**, We have used this in our infastructure
+
+
+**AWS Console Steps**
+
+- Go to Service -> **AWS Cloud Map** 
+- Create namespace (this is the container for all our services) (eg: web-advertisement) -> Choose API calls for instance discovery
+- Click on the namespace created and click on Create a service. Each service refers to a microservice.
+- Add service name (eg: advertapi), choose Route 53 health check, add any number for failure threshold (eg: 3) and add /heath as Health check Path and click on create service
+
+We can register our service instance (eg ec2 instance where advertapi is deployed) when via AWS Command line tool (todo 52 middle) as well as .Net core
+
+**Using .NET Core to register an instance of microservice**
+
+We can use the startup.cs (Configure method) or program.cs (main method) of the microservice (advert.api) to add the code that should be executed once. AWS Nuget Packages **AWSSDK.EC2***  and **AWSSDK.ServiceDiscovery** have been used.
+
+We have to copy the Service ID of the CloudMap namespace that we created and add it to appsettings.json
+
+appsettings.json
+
+    {
+       "CloudMapNamespaceSeviceId": "srv-xxxxxxxxxxxxxxxx"
+    }
+
+Startup.cs
+
+    public async Task RegisterToCloudMap()
+    {
+          string serviceId = Configuration.GetValue<string>("CloudMapNamespaceSeviceId");
+
+          var instanceId = EC2InstanceMetadata.InstanceId;
+          if(!string.IsNullOrEmpty(instanceId))
+          {
+                var ipv4 = EC2InstanceMetadata.PrivateIpAddress;
+
+                var client = new AmazonServiceDiscoveryClient();
+
+                await client.RegisterInstanceAsync(new RegisterInstanceRequest()
+                {
+                    InstanceId = instanceId,
+                    ServiceId = serviceId,
+                    Attributes = new Dictionary<string, string>()
+                    {
+                        {"AWS_INSTANCE_IPV4", ipv4 },
+                        {"AWS_INSTANCE_PORT", "80" },
+                    }
+                });
+          }
+    }
+
+
+We have to discover the services from our web client (#Microservice 1 - WebAdvert.Web)
+
+AWS Nuget Packages **AWSSDK.ServiceDiscovery** is installed in WebAdvert.Web. We won't use base address from appsettings.json, we will find it using service discovery.
+
+    var discoveryClient = new AmazonServiceDiscoveryClient();
+    var discoveryTask = discoveryClient.DiscoverInstancesAsync(
+                         new DiscoverInstancesRequest()
+                           {
+                               NamespaceName = "web-advertisement",
+                               ServiceName = "advertapi"
+                           });
+
+    discoveryTask.Wait();
+    var instances = discoveryTask.Result.Instances;
+    var ipv4 = instances[0].Attributes["AWS_INSTANCE_IPV4"];
+    var port = instances[0].Attributes["AWS_INSTANCE_PORT"];
+    
+    
+## CI/CD for Microservices
+
+Continuous Integration and Delivery is necessary to achieve the agility that Microservices promise.
+
+**Continuous Integration:** Code changes get built, tested and then meerged into the main branch automatically to ensure code is always production ready.
+
+**Continuous Delivery:** Code changes that pass CI get automatically deployed to all pre production environments (eg: dev, staging etc)
+
+**Continuous Deployment:** Code changes that pass CI get automatically deployed to all  production environment.
+
+Types of deployment
+
+**Rolling Deployment:** New service instance (EC2, Lambda or Docker Containers) are launched. New version runs parallel to the old version. Old instances meeds to be deleted.
+
+**Red/Black Deployment:** Once the new version is up. 100% of traffic is redirected from old to new.
+
+**Canary Deployment:** Service is deployed for small % of users. When tests are ok, 100% traffic is redirected to new
+
+
+### Deployment in AWS
+
+**Deployment of AWS Lambda:** 
+
+- Use SAM (Serverless Application Model) 
+- Use AWS Cloud Formation to create SNS topic and attaching them to Lambda.
+- Use Powershell Core
+- Use AWS CLI - We can run commands to build the objects and deploy code
+
+**Deployment of ASP.NET Core Web API:** 
+
+-  Use AWS Cloud Formation. it can launch new EC2 instances for each deployment and implemnet rolling deployments.
+-  Use AWS Code Deploy. It is easy to imeplement using AWS CLI or powershell. Code deployment agentmust be installed on each EC2 instance.
+-  Use Docker and AWS ECS, we can build using containers and don't neeed yoinstall tolls on servers. Amazon ECS manages containers and their security, scaling etc.
+
+### Deployment with Docker
+
+Docker is used to package the code artifact, all realted files and operationg system in a Docker Image. A container is an instance of Image. AWS ECS runs and manages containers
+
+**Deployment Models**
+
+- Fargate: Containers are fully managed by AWS.
+- EC2: EC2 instances will be created to host the containers. We can manage clustering, auto scaling etc
+
+**Elastic Container Service (ECS)**
+
+![image](https://user-images.githubusercontent.com/29271635/122956791-f2fea400-d39e-11eb-916e-e2473261d399.png)
