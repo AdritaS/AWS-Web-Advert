@@ -502,13 +502,37 @@ Continuous Integration and Delivery is necessary to achieve the agility that Mic
 
 Types of deployment
 
-**Rolling Deployment:** New service instance (EC2, Lambda or Docker Containers) are launched. New version runs parallel to the old version.
+**Rolling Deployment:** New service instance (EC2, Lambda or Docker Containers) are launched. New version runs parallel to the old version. Old instances meeds to be deleted.
 
 **Red/Black Deployment:** Once the new version is up. 100% of traffic is redirected from old to new.
 
 **Canary Deployment:** Service is deployed for small % of users. When tests are ok, 100% traffic is redirected to new
 
 
+### Deployment in AWS
 
+**Deployment of AWS Lambda:** 
 
+- Use SAM (Serverless Application Model) 
+- Use AWS Cloud Formation to create SNS topic and attaching them to Lambda.
+- Use Powershell Core
+- Use AWS CLI - We can run commands to build the objects and deploy code
 
+**Deployment of ASP.NET Core Web API:** 
+
+-  Use AWS Cloud Formation. it can launch new EC2 instances for each deployment and implemnet rolling deployments.
+-  Use AWS Code Deploy. It is easy to imeplement using AWS CLI or powershell. Code deployment agentmust be installed on each EC2 instance.
+-  Use Docker and AWS ECS, we can build using containers and don't neeed yoinstall tolls on servers. Amazon ECS manages containers and their security, scaling etc.
+
+### Deployment with Docker
+
+Docker is used to package the code artifact, all realted files and operationg system in a Docker Image. A container is an instance of Image. AWS ECS runs and manages containers
+
+**Deployment Models**
+
+- Fargate: Containers are fully managed by AWS.
+- EC2: EC2 instances will be created to host the containers. We can manage clustering, auto scaling etc
+
+**Elastic Container Service (ECS)**
+
+![image](https://user-images.githubusercontent.com/29271635/122956791-f2fea400-d39e-11eb-916e-e2473261d399.png)
