@@ -536,3 +536,13 @@ Docker is used to package the code artifact, all realted files and operationg sy
 **Elastic Container Service (ECS)**
 
 ![image](https://user-images.githubusercontent.com/29271635/122956791-f2fea400-d39e-11eb-916e-e2473261d399.png)
+
+
+
+- **Container ->** A container is an instance of Image. Amazon pulls the image from Repository (Elastic Container Repository - it is like docker hub) and then create instances of it which are containers.
+
+- **Task ->** Task is definition of how a container should be created, managed, how much memory to give to the container etc.
+
+- **Service ->** It a the microservice (like advert.api or search.api). It can have 1 or more task running inside it. Every service can go to 1 EC2 machine (if we use EC2 model).
+
+-  **Cluster ->** It is the cluster of EC2 machines. It has the VPC information, auto scalling attached to it.
