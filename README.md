@@ -266,20 +266,20 @@ Nuget Package **NEST** is installed to work with Elastic Search
 ## #Microservice 4 - Search.API - This is the API to search Advertisements
 
 
-        public SearchService(IElasticClient client)
-        {
-            _client = client;
-        }
+     public SearchService(IElasticClient client)
+     {
+         _client = client;
+     }
 
-        public async Task<List<AdvertType>> Search(string keyword)
-        {
-            var searchResponse = await _client.SearchAsync<AdvertType>(search => search.
-                Query(query => query.
-                    Term(field => field.Title, keyword.ToLower())
-                ));
+     public async Task<List<AdvertType>> Search(string keyword)
+     {
+         var searchResponse = await _client.SearchAsync<AdvertType>(search => search.
+             Query(query => query.
+                 Term(field => field.Title, keyword.ToLower())
+             ));
 
-            return searchResponse.Hits.Select(hit => hit.Source).ToList();
-        }
+         return searchResponse.Hits.Select(hit => hit.Source).ToList();
+     }
 
 
 ## Logging for Microservices in AWS
@@ -439,9 +439,13 @@ We can use the startup.cs (Configure method) or program.cs (main method) of the 
 
 We have to copy the Service ID of the CloudMap namespace that we created and add it to appsettings.json
 
+appsettings.json
+
     {
        "CloudMapNamespaceSeviceId": "srv-xxxxxxxxxxxxxxxx"
     }
+
+Startup.cs
 
     public async Task RegisterToCloudMap()
     {
@@ -467,3 +471,20 @@ We have to copy the Service ID of the CloudMap namespace that we created and add
           }
     }
 
+
+We have to discover the services from our web client (#Microservice 1 - WebAdvert.Web)
+
+AWS Nuget Packages **AWSSDK.ServiceDiscovery** is installed in WebAdvert.Web. We won't use base address from appsettings.json, we will find it using service discovery.
+
+    var discoveryClient = new AmazonServiceDiscoveryClient();
+    var discoveryTask = discoveryClient.DiscoverInstancesAsync(
+                         new DiscoverInstancesRequest()
+                           {
+                               NamespaceName = "web-advertisement",
+                               ServiceName = "advertapi"
+                           });
+
+    discoveryTask.Wait();
+    var instances = discoveryTask.Result.Instances;
+    var ipv4 = instances[0].Attributes["AWS_INSTANCE_IPV4"];
+    var port = instances[0].Attributes["AWS_INSTANCE_PORT"];
