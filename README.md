@@ -488,3 +488,27 @@ AWS Nuget Packages **AWSSDK.ServiceDiscovery** is installed in WebAdvert.Web. We
     var instances = discoveryTask.Result.Instances;
     var ipv4 = instances[0].Attributes["AWS_INSTANCE_IPV4"];
     var port = instances[0].Attributes["AWS_INSTANCE_PORT"];
+    
+    
+## CI/CD for Microservices
+
+Continuous Integration and Delivery is necessary to achieve the agility that Microservices promise.
+
+**Continuous Integration:** Code changes get built, tested and then meerged into the main branch automatically to ensure code is always production ready.
+
+**Continuous Delivery:** Code changes that pass CI get automatically deployed to all pre production environments (eg: dev, staging etc)
+
+**Continuous Deployment:** Code changes that pass CI get automatically deployed to all  production environment.
+
+Types of deployment
+
+**Rolling Deployment:** New service instance (EC2, Lambda or Docker Containers) are launched. New version runs parallel to the old version.
+
+**Red/Black Deployment:** Once the new version is up. 100% of traffic is redirected from old to new.
+
+**Canary Deployment:** Service is deployed for small % of users. When tests are ok, 100% traffic is redirected to new
+
+
+
+
+
