@@ -385,9 +385,8 @@ Client logins to AWS cognito, Cognito sends Token to the  Client. Client makes a
 todo - 46(3:00) 47
 
 
-## Microservice Discovery
 
-In a microservices application, the set of running service instances changes dynamically. Instances have dynamically assigned network locations. Consequently, in order for a client to make a request to a service it must use a service‑discovery mechanism. A key part of service discovery is the service registry.
+## API Documentation Microservice Discovery
 
 To create a dynamic documentation, we use **Swagger**. To use it in Advert.API Nuget Packages **Swashbuckle.Aspnetcore** has been used and in Startup.cs we add the following:
 
@@ -414,5 +413,24 @@ To create a dynamic documentation, we use **Swagger**. To use it in Advert.API N
 
 When the microservice is built, it will provide SDK. It contains models that clients can directly access. Tools like Autorest and SwaggerGen can be used generates client libraries for accessing RESTful web services.
 
-To create client models, Create a new .NET Core Project in Visual Studio -> Right click on Project > Click Add -> Choose Rest API Client -> Choose Swagger URL is the Metadata File -> Add the swagger utl (eg: https://localhost:44364/swagger/v1/swagger.json). This will generate the models.
+To create client models, Open .NET Core Project in Visual Studio -> Right click on Project > Click Add -> Choose Rest API Client -> Choose Swagger URL is the Metadata File -> Add the swagger url (eg: https://localhost:44364/swagger/v1/swagger.json). This will generate the models.
+
+
+## Microservice Discovery
+
+In a microservices application, the set of running service instances changes dynamically. Instances have dynamically assigned network locations. Consequently, in order for a client to make a request to a service it must use a service‑discovery mechanism. A key part of service discovery is the service registry.
+
+- We can setup our own Service Discovery infastructure using Consul tool. It is cloud independent, can be setup in AWS, Azure etc.
+- We can also use managed AWS service - **AWS Cloud Map**, We have used this in our infastructure
+
+
+**AWS Console Steps**
+
+- Go to Service -> **AWS Cloud Map** 
+- Create namespace (this is the container for all our services) (eg: web-advertisement) -> Choose API calls for instance discovery
+- Click on the namespace created and click on Create a service. Each service refers to a microservice.
+- Add service name (eg: advertapi), choose Route 53 health check, add any number for failure threshold (eg: 3) and add /heath as Health check Path and click on create service
+
+We can register our service instance (eg ec2 instance where advertapi is deployed) when via AWS Command line tool (todo 52 middle) as well as .Net core
+
 
