@@ -235,11 +235,21 @@ Nuget Package **NEST** is installed to work with Elastic Search
 
 - Go to Service -> ElasticSearch
 - Create a new domain (Elastic Search Domain is like container for our Elastic Search Instance)
+-  Choose Deployment type as Development and testing and add a Elasticsearch domain name (eg advertapi)
 - We chose Number of instance as 1 and Instance Type t2.small.elasticsearch
 - We chose Number Storage Type EBS, EBS VolumeType Magnetic and size 10
 - We chose Public access and domain template as Allow Open Access to the domain
 - It provides an Elastic Search endpoint and a Kibana endpoint. Copy the Elastic Search endpoint from Overview tab of the Elastic Search Domain created and add it to Search worker's appsettings.json todo (32)
 
+appsettings.json 
+
+      {
+        "ES": {
+           "url": "https://search-advertapi-xxxxxxx.us-xxxx-1.es.amazonaws.com"
+         }
+       }
+
+Lambda function
 
         public SearchWorker(IElasticClient client)
         {
@@ -263,6 +273,8 @@ Nuget Package **NEST** is installed to work with Elastic Search
 ### Uploading Lambda Function
 
 **Packagaing WebAdvert.SearchWorker to a zip folder** - todo (31)
+
+
 
 **AWS Console Steps**
 
