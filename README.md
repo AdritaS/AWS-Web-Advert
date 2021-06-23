@@ -231,7 +231,7 @@ Nuget Package **NEST** is installed to work with Elastic Search
 
 
 
-**AWS Console Steps for Elastic Search** - todo (31)
+**AWS Console Steps for Elastic Search** 
 
 - Go to Service -> ElasticSearch
 - Create a new domain (Elastic Search Domain is like container for our Elastic Search Instance)
@@ -239,7 +239,7 @@ Nuget Package **NEST** is installed to work with Elastic Search
 - We chose Number of instance as 1 and Instance Type t2.small.elasticsearch
 - We chose Number Storage Type EBS, EBS VolumeType Magnetic and size 10
 - We chose Public access and domain template as Allow Open Access to the domain
-- It provides an Elastic Search endpoint and a Kibana endpoint. Copy the Elastic Search endpoint from Overview tab of the Elastic Search Domain created and add it to Search worker's appsettings.json todo (32)
+- It provides an Elastic Search endpoint and a Kibana endpoint. Copy the Elastic Search endpoint from Overview tab of the Elastic Search Domain created and add it to Search worker's appsettings.json 
 
 appsettings.json 
 
@@ -278,7 +278,7 @@ Lambda function
 
 **AWS Console Steps**
 
-  - We need to create a role for uploading Lambda Function. The role tells Amazon, what services this Lambda can access. Go to **IAM**, create new Role -> Choose Lambda -> Choose policy CloudWatchLogsFullAccess -> we can Add tag - Name: SearchWorkerRole -> Give Rolle name SearchWorkerRole and create role.
+  - We need to create a role for uploading Lambda Function. The role tells Amazon, what services this Lambda can access. Go to **IAM**, create new Role -> Choose Lambda -> Choose policy CloudWatchLogsFullAccess -> we can Add tag - Name: SearchWorkerRole -> Give Role name SearchWorkerRole and create role.
   - Go to Service -> Lambda -> Create Function -> Choose AuthorFromScratch -> Give a name :searchworker, select Runtime (eg: .NET Core 3.1), for Role - selct use existing role (SearchWorkerRole).
   - Go to the created SearchWorker Lambda -> Add Trigger -> Select SNS -> Choose AdvertAPI Topic ARN
   - Upload lambda code - todo (31)
