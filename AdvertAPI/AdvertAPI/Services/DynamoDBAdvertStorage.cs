@@ -65,6 +65,7 @@ namespace AdvertAPI.Services
                     if(model.Status == AdvertStatus.Active)
                     {
                         record.Status = AdvertStatus.Active;
+                        record.FilePath = model.FilePath;
                         await context.SaveAsync(record);
                     } else
                     {

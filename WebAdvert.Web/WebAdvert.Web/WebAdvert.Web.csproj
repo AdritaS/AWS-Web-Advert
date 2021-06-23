@@ -11,6 +11,7 @@
     <PackageReference Include="Amazon.Extensions.CognitoAuthentication" Version="1.0.3" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="AWSSDK.S3" Version="3.3.104.20" />
+    <PackageReference Include="AWSSDK.ServiceDiscovery" Version="3.3.102.4" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />

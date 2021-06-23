@@ -14,7 +14,7 @@
             var imageUrl = string.IsNullOrEmpty(Model.Image) ? defaultImageUrl :
                 $"{advertImageUrl}/{Model.Image}";
         }
-        <img src="@imageUrl" alt="Avatar" style="width:100%">
+        <img src="@imageUrl" alt="Avatar"  height="300" width="400">
         <div class="container">
             <p>@Model.Title</p>
         </div>

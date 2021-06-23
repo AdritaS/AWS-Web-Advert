@@ -26,6 +26,7 @@
         "dependencies": {
           "AWSSDK.DynamoDBv2": "3.3.101.59",
           "AWSSDK.EC2": "3.3.2",
+          "AWSSDK.ServiceDiscovery": "3.3.2",
           "AWSSDK.SimpleNotificationService": "3.3.101.5",
           "AdvertAPI.Models": "1.0.0",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "7.0.0",
@@ -110,6 +111,20 @@
         },
         "compile": {
           "lib/netstandard1.3/AWSSDK.EC2.dll": {}
+        }
+      },
+      "AWSSDK.ServiceDiscovery/3.3.2": {
+        "dependencies": {
+          "AWSSDK.Core": "3.3.103.32"
+        },
+        "runtime": {
+          "lib/netstandard1.3/AWSSDK.ServiceDiscovery.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.3.2.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.3/AWSSDK.ServiceDiscovery.dll": {}
         }
       },
       "AWSSDK.SimpleNotificationService/3.3.101.5": {
@@ -3856,6 +3871,13 @@
       "sha512": "sha512-6CHmLO+BI/ZrVKElU7E0+sz91xAlFxX23G4F2bxK9E8/e1XKfh6l3gMBiojbTVeH/pMG5kWO5HDCOQqSlFCx5w==",
       "path": "awssdk.ec2/3.3.2",
       "hashPath": "awssdk.ec2.3.3.2.nupkg.sha512"
+    },
+    "AWSSDK.ServiceDiscovery/3.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-H3axMR+rpHfMy9Wm9icWnV4n4itO/ErWL+uKqhxprbBoJxsL4YEcXk3T+KLaCiCij60z9RyH/ghTpNRs6vTEGw==",
+      "path": "awssdk.servicediscovery/3.3.2",
+      "hashPath": "awssdk.servicediscovery.3.3.2.nupkg.sha512"
     },
     "AWSSDK.SimpleNotificationService/3.3.101.5": {
       "type": "package",
