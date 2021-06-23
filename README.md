@@ -335,8 +335,8 @@ To see what's going on in Elastic Serch when the logs are dumped, we use **Kiban
 - Go to Manage Identity Pool -> Create Identity Pool (KibanaUsers) and under Authentication providers add Pool Id and App client Id and create pool
 - Note the Role Name and Allow
 - Under IAM - Roles, we can see 2 roles created - CognitoKibanaUsersAuth and CognitoKibanaUsersUnauth. Copy the Role ARN of CognitoKibanaUsersAuth Role
-- Go to Service -> **ElasticSearchSErvice** -> Create a new Domain (webadvertslogs) todo (35 -4:16)
-- Cloose public access and enable Amazon Cognito for Authentication -> Choose WebAdevert User pool -> Choose KibanaUsers Identity Pool -> Choose domain template as Allow Open Access to the domain
+- Go to Service -> **ElasticSearchService** -> Create a new Domain (webadvertslogs) todo (35 -4:16)
+- Choose public access and enable Amazon Cognito for Authentication -> Choose WebAdevert User pool -> Choose KibanaUsers Identity Pool -> Choose domain template as Allow Open Access to the domain
 - Pick the Role ARN of CognitoKibanaUsersAuth Role and under Add or edit access policy json AWS uder Principal section is '*' by default, replace it with the Role ARN of CognitoKibanaUsersAuth Role. This mens only these users can aceess Kibana
 
 **Sending Data to Kibana**
