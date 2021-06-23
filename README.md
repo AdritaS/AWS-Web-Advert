@@ -141,7 +141,11 @@ S3 bucket does't have read permission to the images who aren't logged in to AWS 
 - Create new Distribution -> Get Started on Web -> Set S3 bucket name in the Original Domain Name -> Choose Restrict Bucket Access
 - Open the created Distribution and copy the Domain Name to implement it on our website.
 
-We put the Domain name in config file of  WebAdvert.Web appsettings.json of 
+We put the Domain name in config file of  WebAdvert.Web appsettings.json.
+
+    {
+        "ImageBaseUrl": "http://dxxxxxxxxxo7.cloudfront.net"
+    }
 
 - Search Management (using #Microservice 4 - Search.API)
 
