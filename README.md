@@ -285,6 +285,18 @@ Lambda function
 
 ## #Microservice 4 - Search.API - This is the API to search Advertisements
 
+It is a ASP.NET Core Web API project. It searches Elasticsearch service for any item matching the searched keyword. Nuget Package **NEST** is installed to work with Elastic Search.
+Elastic Search endpoint from Overview tab of the Elastic Search Domain created is added to appsettings.json 
+
+appsettings.json: 
+
+      {
+        "ES": {
+           "url": "https://search-advertapi-xxxxxxx.us-xxxx-1.es.amazonaws.com"
+         }
+       }
+
+SearchService:
 
      public SearchService(IElasticClient client)
      {
