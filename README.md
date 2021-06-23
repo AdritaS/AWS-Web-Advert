@@ -225,10 +225,9 @@ This is a AWS Lambda (Serverless Functions). This becomes available only when ne
 
 The SearchWorker creates a new document in **Elastic Search** whenever it gets a message from **SNS**
 
-It is a Class Library .NET Core Project. AWS Nuget Packages **Amazon.Lambda.Core**, **Amazon.Lambda.SNSEvents** and **Amazon.Lambda.Serialization.Json** have been used for Lambda functionality. We can also install **Amazon.Lambda.Tools** to publish everything with .NET Cli. 
+To create Lamda project, I installed AWS Toolkit for Visual Studio and created a Lambda Project (.NET Core).It is like Class Library .NET Core Project. AWS Nuget Packages **Amazon.Lambda.Core**, **Amazon.Lambda.SNSEvents** and **Amazon.Lambda.Serialization.Json** have been used for Lambda functionality. 
 
 Nuget Package **NEST** is installed to work with Elastic Search
-
 
 
 **AWS Console Steps for Elastic Search** 
@@ -272,8 +271,11 @@ Lambda function
 
 ### Uploading Lambda Function
 
-**Packagaing WebAdvert.SearchWorker to a zip folder** - todo (31)
-
+- Right-Click on Project node and then choosing Publish to AWS Lambda.
+- In the Upload Lambda Function window, enter a name for the function, or select a previously published function to republish.
+- Set Handler as "Assembly::Namespace.Class::Function" 
+- Set other details like IAM Role, Memory etc. and upload
+- Test the Lambda function in AWS Console
 
 
 **AWS Console Steps**
