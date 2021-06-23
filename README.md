@@ -41,7 +41,7 @@ Advert API is placed in private subnet. It is not neded to be accessed from inte
 **AWS Console Steps**
 
 - Go to Service -> Cognito
-- Create User pool and add attributes, change password policy, set verification rules, add App Clints like web client, ios client etc
+- Create User pool and add attributes, change password policy, set verification rules, add App Clients like web client, ios client etc
 - Create IAM user and attch policy **AmazonCognitoDeveloperAuthentication** and **AdministratorAccess**. Go to Security Credentials Tab and create Access key
 
 **Windows System Steps**
@@ -269,6 +269,14 @@ Lambda function
         }
 
 
+
+**AWS Console Steps**
+
+  - We need to create a role for uploading Lambda Function. The role tells Amazon, what services this Lambda can access. Go to **IAM**, create new Role -> Choose Lambda -> Choose policy CloudWatchLogsFullAccess -> we can Add tag - Name: SearchWorkerRole -> Give Role name SearchWorkerRole and create role.
+  - Go to Service -> Lambda -> Create Function -> Choose AuthorFromScratch -> Give a name :searchworker, select Runtime (eg: .NET Core 3.1), for Role - selct use existing role (SearchWorkerRole).
+  - Go to the created SearchWorker Lambda -> Add Trigger -> Select SNS -> Choose AdvertAPI Topic ARN
+  - Upload lambda code :
+
 ### Uploading Lambda Function
 
 - Right-Click on Project node and then choosing Publish to AWS Lambda.
@@ -276,14 +284,6 @@ Lambda function
 - Set Handler as "Assembly::Namespace.Class::Function" 
 - Set other details like IAM Role, Memory etc. and upload
 - Test the Lambda function in AWS Console
-
-
-**AWS Console Steps**
-
-  - We need to create a role for uploading Lambda Function. The role tells Amazon, what services this Lambda can access. Go to **IAM**, create new Role -> Choose Lambda -> Choose policy CloudWatchLogsFullAccess -> we can Add tag - Name: SearchWorkerRole -> Give Role name SearchWorkerRole and create role.
-  - Go to Service -> Lambda -> Create Function -> Choose AuthorFromScratch -> Give a name :searchworker, select Runtime (eg: .NET Core 3.1), for Role - selct use existing role (SearchWorkerRole).
-  - Go to the created SearchWorker Lambda -> Add Trigger -> Select SNS -> Choose AdvertAPI Topic ARN
-  - Upload lambda code - todo (31)
 
 ## #Microservice 4 - Search.API - This is the API to search Advertisements
 
@@ -508,7 +508,7 @@ Startup.cs
 
 We have to discover the services from our web client (#Microservice 1 - WebAdvert.Web)
 
-AWS Nuget Packages **AWSSDK.ServiceDiscovery** is installed in WebAdvert.Web. We won't use base address from appsettings.json, we will find it using service discovery.
+AWS Nuget Packages **AWSSDK.ServiceDiscovery** is installed in WebAdvert.Web. We won't use the base address from appsettings.json, we will find it using service discovery.
 
     var discoveryClient = new AmazonServiceDiscoveryClient();
     var discoveryTask = discoveryClient.DiscoverInstancesAsync(
@@ -528,7 +528,7 @@ AWS Nuget Packages **AWSSDK.ServiceDiscovery** is installed in WebAdvert.Web. We
 
 Continuous Integration and Delivery is necessary to achieve the agility that Microservices promise.
 
-**Continuous Integration:** Code changes get built, tested and then meerged into the main branch automatically to ensure code is always production ready.
+**Continuous Integration:** Code changes get built, tested and then merged into the main branch automatically to ensure code is always production ready.
 
 **Continuous Delivery:** Code changes that pass CI get automatically deployed to all pre production environments (eg: dev, staging etc)
 
@@ -536,7 +536,7 @@ Continuous Integration and Delivery is necessary to achieve the agility that Mic
 
 Types of deployment
 
-**Rolling Deployment:** New service instance (EC2, Lambda or Docker Containers) are launched. New version runs parallel to the old version. Old instances meeds to be deleted.
+**Rolling Deployment:** New service instance (EC2, Lambda or Docker Containers) are launched. New version runs parallel to the old version. Old instances needs to be deleted.
 
 **Red/Black Deployment:** Once the new version is up. 100% of traffic is redirected from old to new.
 
@@ -548,19 +548,19 @@ Types of deployment
 **Deployment of AWS Lambda:** 
 
 - Use SAM (Serverless Application Model) 
-- Use AWS Cloud Formation to create SNS topic and attaching them to Lambda.
+- Use AWS Cloud Formation to create SNS topic and attach them to Lambda.
 - Use Powershell Core
 - Use AWS CLI - We can run commands to build the objects and deploy code
 
 **Deployment of ASP.NET Core Web API:** 
 
--  Use AWS Cloud Formation. it can launch new EC2 instances for each deployment and implemnet rolling deployments.
--  Use AWS Code Deploy. It is easy to imeplement using AWS CLI or powershell. Code deployment agentmust be installed on each EC2 instance.
--  Use Docker and AWS ECS, we can build using containers and don't neeed yoinstall tolls on servers. Amazon ECS manages containers and their security, scaling etc.
+-  Use AWS Cloud Formation. It can launch new EC2 instances for each deployment and implement rolling deployments.
+-  Use AWS Code Deploy. It is easy to implement using AWS CLI or powershell. Code deployment agent must be installed on each EC2 instance.
+-  Use Docker and AWS ECS, we can build using containers and don't need to install tools on servers. Amazon ECS manages containers and their security, scaling etc.
 
 ### Deployment with Docker
 
-Docker is used to package the code artifact, all realted files and operationg system in a Docker Image. A container is an instance of Image. AWS ECS runs and manages containers
+Docker is used to package the code artifact, all related files and operating system in a Docker Image. A container is an instance of Image. AWS ECS runs and manages containers
 
 **Deployment Models**
 
@@ -577,6 +577,6 @@ Docker is used to package the code artifact, all realted files and operationg sy
 
 - **Task ->** Task is definition of how a container should be created, managed, how much memory to give to the container etc.
 
-- **Service ->** It a the microservice (like advert.api or search.api). It can have 1 or more task running inside it. Every service can go to 1 EC2 machine (if we use EC2 model).
+- **Service ->** It is a the microservice (like advert.api or search.api). It can have 1 or more task running inside it. Every service can go to 1 EC2 machine (if we use EC2 model).
 
--  **Cluster ->** It is the cluster of EC2 machines. It has the VPC information, auto scalling attached to it.
+-  **Cluster ->** It is the cluster of EC2 machines. It has the VPC information, auto scaling attached to it.
