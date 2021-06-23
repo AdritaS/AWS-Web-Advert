@@ -66,7 +66,9 @@ This is a ASP.NET Core MVC Web Application.
 
 It has the following pages:
 
-- SignUp, Login and Confirm Password pages which connects with AWS Cognito. AWS Nuget Packages has been used **Amazon.AspNetCore.Identity.Cognito** and **Amazon.Extensions.CognitoAuthentication**
+### SignUp, Login and Confirm Password pages
+
+It connects with AWS Cognito. AWS Nuget Packages has been used **Amazon.AspNetCore.Identity.Cognito** and **Amazon.Extensions.CognitoAuthentication**
 
       private readonly CognitoUserPool _pool;
       private readonly SignInManager<CognitoUser> _signInManager;
@@ -100,7 +102,9 @@ It has the following pages:
             return View();
         }
         
-- Advertisement Management page to create a new Advertisement (using #Microservice 2 - Advert.API) and s3 Bucket to upload image. AWS Nuget Packages **AWSSDK.S3** has been used.
+### Advertisement Management page 
+
+It is used to create a new Advertisement (using #Microservice 2 - Advert.API) and s3 Bucket to upload image. AWS Nuget Packages **AWSSDK.S3** has been used.
 
 
 **AWS Console Steps for S3 Bucket**
@@ -129,7 +133,7 @@ It has the following pages:
     }
 ```
 
-- List Advertisement Page
+### List Advertisement Page
 
 This page displays all Advertisement by connect with #Microservice 2 Advert.API. To display the images (from S3 bucket) associated with each advertisement, following items are needed to be setup.
 
@@ -147,7 +151,7 @@ We put the Domain name in config file of  WebAdvert.Web appsettings.json.
         "ImageBaseUrl": "http://dxxxxxxxxxo7.cloudfront.net"
     }
 
-- Search Management (using #Microservice 4 - Search.API)
+### Search Management (using #Microservice 4 - Search.API)
 
 The Home page has a search box. When we type something Microservice 4 - Search.API is called which in turn gets a list from Elastic Search Container.
 
