@@ -8,6 +8,7 @@ using Amazon.Lambda.SNSEvents;
 using Nest;
 using Newtonsoft.Json;
 using WebAdvert.SearchWorker.Helpers;
+using WebAdvert.SearchWorker.Models;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -20,7 +21,7 @@ namespace WebAdvert.SearchWorker
 
         // This always calls the next constructor and singleton instance of Elastic client is used
         // This is the replacement of AddSingleton
-       // public SearchWorker() : this(ElasticSearchHelper.GetInstance(ConfigurationHelper.Instance))
+        // public SearchWorker() : this(ElasticSearchHelper.GetInstance(ConfigurationHelper.Instance))
         public SearchWorker() : this(ElasticSearchHelper.GetInstance())
         {
 
@@ -38,6 +39,7 @@ namespace WebAdvert.SearchWorker
         /// <returns></returns>
         public async Task FunctionHandler(SNSEvent snsEvent, ILambdaContext context)
         {
+
             context.Logger.LogLine($"snsEvent: {snsEvent != null}");
             context.Logger.LogLine($"count: {snsEvent.Records.Count}");
 
@@ -47,15 +49,10 @@ namespace WebAdvert.SearchWorker
 
                 var message = JsonConvert.DeserializeObject<AdvertConfirmedMessage>(record.Sns.Message);
                 var advertDocument = MappingHelper.Map(message);
-                try
-                {
-                    await _client.IndexDocumentAsync(advertDocument);
-                }
-                catch(Exception ex)
-                {
-                    context.Logger.LogLine($"Exception: {ex.Message}, {ex.InnerException}, {ex.StackTrace}");
-                }
 
+                var result = await _client.IndexDocumentAsync(advertDocument);
+
+                context.Logger.LogLine($"Result: {result.DebugInformation}");
             }
         }
     }

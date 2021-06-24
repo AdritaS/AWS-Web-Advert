@@ -18,7 +18,7 @@ namespace WebAdvert.SearchWorker
             if (_client == null)
             {
                 // var url = config.GetSection("ES").GetValue<string>("url");
-                var url = "https://search-advertisement-5hh5fnp54jmarpmgfekggmwzwa.us-east-1.es.amazonaws.com/";
+                var url = "https://WebAdvertUsers:Test$1234@search-advertisement-5hh5fnp54jmarpmgfekggmwzwa.us-east-1.es.amazonaws.com/";
 
                 var settings = new ConnectionSettings(new Uri(url))
                     .DefaultIndex("adverts")

@@ -57,11 +57,6 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
-      },
-      "runtimes": {
-        "linux-x64": {
-          "#import": []
-        }
       }
     },
     "C:\\Adrita\\Workspace\\GitHub\\Projects\\AWS-Web-Advert\\WebAdvert.SearchWorker\\WebAdvert.SearchWorker\\WebAdvert.SearchWorker.csproj": {
@@ -158,11 +153,6 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "linux-x64": {
-          "#import": []
         }
       }
     }
