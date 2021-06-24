@@ -589,3 +589,20 @@ Docker is used to package the code artifact, all related files and operating sys
 - **Service ->** It is a the microservice (like advert.api or search.api). It can have 1 or more task running inside it. Every service can go to 1 EC2 machine (if we use EC2 model).
 
 -  **Cluster ->** It is the cluster of EC2 machines. It has the VPC information, auto scaling attached to it.
+
+
+### Uploading Search.API to ECS using Docker image
+
+First we need to create a DockerFile. Right click on the project from Visual Studio -> Add -> Add Docket Support. Docker file will be ready.
+Then we have to prepare AWS Console. We bbed a user with permission for ECS
+
+**AWS Console Steps**
+
+- Go to Service -> **IAM** 
+- Create a user (eg: ECSRunner) -> Attach policies **AWSCodeDeployRoleForECS** and **AmazonECSTaskExecutionRolePolicy**
+- Go to Service -> **Amazon Elastic Container Service (ECS)** 
+- Go to Repositories under Amazon ECR
+- Create a repository and provide a name (ex: searchapirepo)
+- Go to Permissions under Amazon ECR - Repositories. > Edit Permissions -> Add Statement -> Choose Allow -> Select IAM Entity created (eg: ECSRunner)
+- Choose the actions :ecr:CompleteLayerUpload, ecr:InitiateLayerUpload, ecr:PutImage, ecr:UploadLayerPart and Save
+- We can get the publish commands by clicking on View Push commands.
