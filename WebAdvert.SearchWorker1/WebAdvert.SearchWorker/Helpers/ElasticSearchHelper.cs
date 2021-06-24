@@ -11,15 +11,11 @@ namespace WebAdvert.SearchWorker
     {
         private static IElasticClient _client;
 
-        //public static IElasticClient GetInstance(IConfiguration config)
-        public static IElasticClient GetInstance()
-
+        public static IElasticClient GetInstance(IConfiguration config)
         {
             if (_client == null)
             {
-                // var url = config.GetSection("ES").GetValue<string>("url");
-                var url = "https://search-advertisement-5hh5fnp54jmarpmgfekggmwzwa.us-east-1.es.amazonaws.com/";
-
+                var url = config.GetSection("ES").GetValue<string>("url");
                 var settings = new ConnectionSettings(new Uri(url))
                     .DefaultIndex("adverts")
                     .DefaultMappingFor<AdvertType>(m => m.IdProperty(x => x.Id));

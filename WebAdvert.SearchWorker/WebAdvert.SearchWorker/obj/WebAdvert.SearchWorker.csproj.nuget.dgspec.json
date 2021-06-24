@@ -57,6 +57,11 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
+      },
+      "runtimes": {
+        "linux-x64": {
+          "#import": []
+        }
       }
     },
     "C:\\Adrita\\Workspace\\GitHub\\Projects\\AWS-Web-Advert\\WebAdvert.SearchWorker\\WebAdvert.SearchWorker\\WebAdvert.SearchWorker.csproj": {
@@ -102,17 +107,21 @@
           "dependencies": {
             "Amazon.Lambda.Core": {
               "target": "Package",
-              "version": "[2.0.0, )"
+              "version": "[1.2.0, )"
             },
             "Amazon.Lambda.SNSEvents": {
               "target": "Package",
               "version": "[2.0.0, )"
             },
-            "Amazon.Lambda.Serialization.Json": {
+            "Amazon.Lambda.Serialization.SystemTextJson": {
               "target": "Package",
-              "version": "[2.0.0, )"
+              "version": "[2.1.0, )"
             },
             "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
               "version": "[5.0.0, )"
             },
@@ -127,6 +136,10 @@
             "NEST": {
               "target": "Package",
               "version": "[7.13.1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
             }
           },
           "imports": [
@@ -145,6 +158,11 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "linux-x64": {
+          "#import": []
         }
       }
     }
