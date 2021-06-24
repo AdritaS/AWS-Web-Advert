@@ -38,6 +38,26 @@ Command Query Responsibility Segregation is an architectural pattern that separa
 
 ## #Microservice 1 - WebAdvert.Web - This is our Web UI.
 
+**Authentication and Authorization**
+
+**AWS Cognito**  supports authentication through OAuth and OpenId Connect. It can be plugged into ASP.NET Core Identity.It supports token authentication (with JWT) as well as API authentication
+
+**AWS Console Steps**
+
+- Go to Service -> Cognito
+- Create User pool and add attributes, change password policy, set verification rules, add App Clients like web client, ios client etc
+- Create IAM user and attach policy **AmazonCognitoDeveloperAuthentication** and **AdministratorAccess**. Go to Security Credentials Tab and create Access key
+
+**Windows System Steps**
+
+- Create profile in our Windows System. Fo to Users root directory (type %USERPROFILE%). Create folder .aws.. Add file credentials
+
+```
+[default]
+aws_access_key_id = XXXXXXXXXXXXXXXXXXXXXX
+aws_secret_access_key = YYYYYYYYYYYYYYYYYY
+```
+
 This is a ASP.NET Core MVC Web Application.
 
 It has the following pages:
@@ -80,25 +100,7 @@ It connects with AWS Cognito. AWS Nuget Packages has been used **Amazon.AspNetCo
         }
         
         
-**Authentication and Authorization**
 
-**AWS Cognito**  supports authentication through OAuth and OpenId Connect. It can be plugged into ASP.NET Core Identity.It supports token authentication (with JWT) as well as API authentication
-
-**AWS Console Steps**
-
-- Go to Service -> Cognito
-- Create User pool and add attributes, change password policy, set verification rules, add App Clients like web client, ios client etc
-- Create IAM user and attach policy **AmazonCognitoDeveloperAuthentication** and **AdministratorAccess**. Go to Security Credentials Tab and create Access key
-
-**Windows System Steps**
-
-- Create profile in our Windows System. Fo to Users root directory (type %USERPROFILE%). Create folder .aws.. Add file credentials
-
-```
-[default]
-aws_access_key_id = XXXXXXXXXXXXXXXXXXXXXX
-aws_secret_access_key = YYYYYYYYYYYYYYYYYY
-```
         
 ### Advertisement Management page 
 
