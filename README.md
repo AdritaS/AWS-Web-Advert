@@ -30,7 +30,6 @@ Advert API is placed in private subnet. It is not neded to be accessed from inte
 
 
 
-
 ### CQRS
 
 Command Query Responsibility Segregation is an architectural pattern that separates reading and writing into two different models. It does responsibility segregation for the Command model & Query model. In our Architecture, **#Microservice 2 - Advert.API** is the Command Model (i.e writing Advertisements to database) and **#Microservice 4 - WebAdvert.SearchAPI** is for Query Model (Searching Advertisements for displaying)
@@ -606,3 +605,11 @@ Then we have to prepare AWS Console. We bbed a user with permission for ECS
 - Go to Permissions under Amazon ECR - Repositories. > Edit Permissions -> Add Statement -> Choose Allow -> Select IAM Entity created (eg: ECSRunner)
 - Choose the actions :ecr:CompleteLayerUpload, ecr:InitiateLayerUpload, ecr:PutImage, ecr:UploadLayerPart and Save
 - We can get the publish commands by clicking on View Push commands.
+
+
+To use command, we have to install AWS Cli first.
+
+- Login :  docker login --username AWS --password-stdin xxxxxxxxxx.dkr.ecr.us-xxxx-1.amazonaws.com
+- Build: docker build -t searchapirepo .
+- Tag: docker tag searchapirepo:latest xxxxxxxxxxx.dkr.ecr.us-xxxx-1.amazonaws.com/searchapirepo:latest
+- Push to repo: docker push xxxxxxxxxxxxxx.dkr.ecr.us-xxxx-1.amazonaws.com/searchapirepo:latest
