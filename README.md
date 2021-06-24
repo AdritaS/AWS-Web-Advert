@@ -303,7 +303,7 @@ appsettings.json:
 
       {
         "ES": {
-           "url": "https://search-advertapi-xxxxxxx.us-xxxx-1.es.amazonaws.com"
+           "url": "https://Username:Password@search-advertapi-xxxxxxx.us-xxxx-1.es.amazonaws.com"
          }
        }
 
