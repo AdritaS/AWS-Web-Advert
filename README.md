@@ -235,9 +235,11 @@ Nuget Package **NEST** is installed to work with Elastic Search
 - Go to Service -> ElasticSearch
 - Create a new domain (Elastic Search Domain is like container for our Elastic Search Instance)
 -  Choose Deployment type as Development and testing and add a Elasticsearch domain name (eg advertapi)
-- We chose Number of instance as 1 and Instance Type t2.small.elasticsearch
+- We chose Number of instance as 1 and Instance Type t3.small.elasticsearch
 - We chose Number Storage Type EBS, EBS VolumeType Magnetic and size 10
-- We chose Public access and domain template as Allow Open Access to the domain
+- We chose Public access under Network configuration
+- Select Fine-grained access control, choose Create master user. Provide a user name and password.
+- For Domain access policy template choose Allow Open Access to the domain
 - It provides an Elastic Search endpoint and a Kibana endpoint. Copy the Elastic Search endpoint from Overview tab of the Elastic Search Domain created and add it to Search worker's appsettings.json 
 
 appsettings.json 
@@ -250,21 +252,28 @@ appsettings.json
 
 Lambda function
 
-        public SearchWorker(IElasticClient client)
+        public async Task FunctionHandler(SNSEvent snsEvent, ILambdaContext context)
         {
-            _client = client;
-        }
-        public async Task Function(SNSEvent snsEvent, ILambdaContext context)
-        {
+            var node = new Uri("https://Username:Password@search-advertapi-xxxxxxx.us-xxxx-1.es.amazonaws.com/");
+
+            var settings = new ConnectionSettings(node)
+                .DefaultIndex("adverts");
+
+            var client = new ElasticClient(settings);
 
             foreach (var record in snsEvent.Records)
             {
                 context.Logger.LogLine(record.Sns.Message);
 
                 var message = JsonConvert.DeserializeObject<AdvertConfirmedMessage>(record.Sns.Message);
-                var advertDocument = MappingHelper.Map(message);
-                await _client.IndexDocumentAsync(advertDocument);
-
+                var advertDocument = new AdvertType
+                                       {
+                                           Id = message.Id,
+                                           Title = message.Title,
+                                           CreationDateTime = DateTime.UtcNow
+                                       };
+                var result = await client.IndexDocumentAsync(advertDocument);
+                context.Logger.LogLine($"Result: {result.DebugInformation}");
             }
         }
 
