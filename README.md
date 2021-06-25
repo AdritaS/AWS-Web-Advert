@@ -637,4 +637,10 @@ To use command, we have to install AWS Cli first. We will use the Docker file cr
 
 ### Creating Service
 
+- Go to the created Cluster, under Service Tab - click on Create
+- Choose Launch type as EC2, choose the Task Definition and Cluster that we created earlier, provide a Service name (SearchAPIservice)
+- Choose Service type as Replica and Number of tasks as 1/2 and Deployment type as Rolling
+- We will select Load balancer as none, but we can also create one and attach our service to it
+- For demo project, choose Service Auto Scaling Do not adjust the service’s desired count.
+- Go to Service -> EC2. We can see that 1 instance is running
 
