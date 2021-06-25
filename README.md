@@ -642,5 +642,5 @@ To use command, we have to install AWS Cli first. We will use the Docker file cr
 - Choose Service type as Replica and Number of tasks as 1/2 and Deployment type as Rolling
 - We will select Load balancer as none, but we can also create one and attach our service to it
 - For demo project, choose Service Auto Scaling Do not adjust the service’s desired count.
-- Go to Service -> EC2. We can see that 1 instance is running
+- Go to Service -> EC2. We can see that 1 instance is running, we can use it's Public IPv4 DNS :5000 to make a call (eg: https://ec2-35-175-205-14.compute-1.amazonaws.com:5000/search/v1/abc)
 
