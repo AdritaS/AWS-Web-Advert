@@ -607,9 +607,34 @@ Then we have to prepare AWS Console. We bbed a user with permission for ECS
 - We can get the publish commands by clicking on View Push commands.
 
 
-To use command, we have to install AWS Cli first.
+To use command, we have to install AWS Cli first. We will use the Docker file created to build the image and upload it to the AWS ECS repo created.
 
 - Login :  docker login --username AWS --password-stdin xxxxxxxxxx.dkr.ecr.us-xxxx-1.amazonaws.com
 - Build: docker build -t searchapirepo .
 - Tag: docker tag searchapirepo:latest xxxxxxxxxxx.dkr.ecr.us-xxxx-1.amazonaws.com/searchapirepo:latest
 - Push to repo: docker push xxxxxxxxxxxxxx.dkr.ecr.us-xxxx-1.amazonaws.com/searchapirepo:latest
+
+
+### Creating Task Definition
+
+- Click on Create new Task Definition and choose EC2
+- Provide Task Definition (eg : TaskSeachApi), Task memory (eg: 2GB), Task CPU (eg: 2 vCPU)
+- Click on Add Container -> Give a name (eg:SearchAPIContainer), Copt the earlier created Image URI to the Image (eg: xxxxxxxxxxxx.dkr.ecr.us-xxxx-1.amazonaws.com/searchapirepo)
+- Set memory limit  - Hard as 1024,  For port mapping add 80 -> 5000 and click add container
+- Create and the Task Definition is ready.
+
+
+### Creating Cluster
+
+- Go to Clusters -> Create Cluster -> Choose EC2 Linux + Networking 1
+- Add Cluster name - eg: AdvertCluster, Choose On-Demand Instance, Choose EC2 instance type as m5zn.large, choose Number of instances as 1
+- For Key pair, go to  EC2 console  and generate a new Key pair (give a nax - ECS for ex) and choose that.
+- For Networking, choose existing vPC from the dropdown. ( Note: We can also Create a new VPC it has to habe internet access. For that, we have to add internet gateway to it, and in mapping table, map our internet gateway to all traffic to all IPs)
+- Choose a existing subnet and security group. (Note: for existing security group - We have to go to  security group section, check inbound and outboud rules. For inbound rukes - eg: we have port 80 -> 5000, we have to open port 80)
+- For Container instance IAM role -> choose Create new role
+- Once cluster is ready, we have to create a service
+
+
+### Creating Service
+
+
