@@ -566,8 +566,7 @@ Types of deployment
 -  Use AWS Code Deploy. It is easy to implement using AWS CLI or powershell. Code deployment agent must be installed on each EC2 instance.
 -  Use Docker and AWS ECS, we can build using containers and don't need to install tools on servers. Amazon ECS manages containers and their security, scaling etc.
 
-### Deployment with Docker
-
+### Deployment with Docker 
 Docker is used to package the code artifact, all related files and operating system in a Docker Image. A container is an instance of Image. AWS ECS runs and manages containers
 
 **Deployment Models**
@@ -643,4 +642,6 @@ To use command, we have to install AWS Cli first. We will use the Docker file cr
 - We will select Load balancer as none, but we can also create one and attach our service to it
 - For demo project, choose Service Auto Scaling Do not adjust the service’s desired count.
 - Go to Service -> EC2. We can see that 1 instance is running, we can use it's Public IPv4 DNS :5000 to make a call (eg: https://ec2-35-175-205-14.compute-1.amazonaws.com:5000/search/v1/abc)
+
+
 
