@@ -644,4 +644,8 @@ To use command, we have to install AWS Cli first. We will use the Docker file cr
 - Go to Service -> EC2. We can see that 1 instance is running, we can use it's Public IPv4 DNS :5000 to make a call (eg: https://ec2-35-175-205-14.compute-1.amazonaws.com:5000/search/v1/abc)
 
 
+## Event Driven Microservice
+
+- **Events** : Notification (message) sent from 1 Microservice to another Microservice to inform something has happened.
+- **Command** : A message (command) that is sent from 1 microservice to another Microservice to instruct to do something.
 
