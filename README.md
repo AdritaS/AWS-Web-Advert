@@ -29,20 +29,23 @@ Advert API is placed in private subnet. It is not neded to be accessed from inte
 - Client (browser or mobile app) connect to Amazon CloudFront(Caching service). Cloudfront sends data to API Gateway (Aggragates all API into one address)
 
 
-### Authentication and Authorization
 
-**AWS Cognito** has all the following features:
+### CQRS
 
-- The applicatiion supports authentication through OAuth and OpenId Connect 
-- It supports linking with Google and Facebook
-- It is plugged into ASP.NET Core Identity
-- It suupports token authentication (with JWT) as well as API authentication
+Command Query Responsibility Segregation is an architectural pattern that separates reading and writing into two different models. It does responsibility segregation for the Command model & Query model. In our Architecture, **#Microservice 2 - Advert.API** is the Command Model (i.e writing Advertisements to database) and **#Microservice 4 - WebAdvert.SearchAPI** is for Query Model (Searching Advertisements for displaying)
+
+
+## #Microservice 1 - WebAdvert.Web - This is our Web UI.
+
+**Authentication and Authorization**
+
+**AWS Cognito**  supports authentication through OAuth and OpenId Connect. It can be plugged into ASP.NET Core Identity.It supports token authentication (with JWT) as well as API authentication
 
 **AWS Console Steps**
 
 - Go to Service -> Cognito
-- Create User pool and add attributes, change password policy, set verification rules, add App Clints like web client, ios client etc
-- Create IAM user and attch policy **AmazonCognitoDeveloperAuthentication** and **AdministratorAccess**. Go to Security Credentials Tab and create Access key
+- Create User pool and add attributes, change password policy, set verification rules, add App Clients like web client, ios client etc
+- Create IAM user and attach policy **AmazonCognitoDeveloperAuthentication** and **AdministratorAccess**. Go to Security Credentials Tab and create Access key
 
 **Windows System Steps**
 
@@ -54,19 +57,14 @@ aws_access_key_id = XXXXXXXXXXXXXXXXXXXXXX
 aws_secret_access_key = YYYYYYYYYYYYYYYYYY
 ```
 
-
-### CQRS
-
-Command Query Responsibility Segregation is an architectural pattern that separates reading and writing into two different models. It does responsibility segregation for the Command model & Query model. In our Architecture, **#Microservice 2 - Advert.API** is the Command Model (i.e writing Advertisements to database) and **#Microservice 4 - WebAdvert.SearchAPI** is for Query Model (Searching Advertisements for displaying)
-
-
-## #Microservice 1 - WebAdvert.Web - This is our Web UI.
-
 This is a ASP.NET Core MVC Web Application.
 
 It has the following pages:
 
-- SignUp, Login and Confirm Password pages which connects with AWS Cognito. AWS Nuget Packages has been used **Amazon.AspNetCore.Identity.Cognito** and **Amazon.Extensions.CognitoAuthentication**
+### SignUp, Login and Confirm Password pages
+
+
+It connects with AWS Cognito. AWS Nuget Packages has been used **Amazon.AspNetCore.Identity.Cognito** and **Amazon.Extensions.CognitoAuthentication**
 
       private readonly CognitoUserPool _pool;
       private readonly SignInManager<CognitoUser> _signInManager;
@@ -100,7 +98,12 @@ It has the following pages:
             return View();
         }
         
-- Advertisement Management page to create a new Advertisement (using #Microservice 2 - Advert.API) and s3 Bucket to upload image. AWS Nuget Packages **AWSSDK.S3** has been used.
+        
+
+        
+### Advertisement Management page 
+
+It is used to create a new Advertisement (using #Microservice 2 - Advert.API) and s3 Bucket to upload image. AWS Nuget Packages **AWSSDK.S3** has been used.
 
 
 **AWS Console Steps for S3 Bucket**
@@ -129,7 +132,7 @@ It has the following pages:
     }
 ```
 
-- List Advertisement Page
+### List Advertisement Page
 
 This page displays all Advertisement by connect with #Microservice 2 Advert.API. To display the images (from S3 bucket) associated with each advertisement, following items are needed to be setup.
 
@@ -141,9 +144,13 @@ S3 bucket does't have read permission to the images who aren't logged in to AWS 
 - Create new Distribution -> Get Started on Web -> Set S3 bucket name in the Original Domain Name -> Choose Restrict Bucket Access
 - Open the created Distribution and copy the Domain Name to implement it on our website.
 
-We put the Domain name in config file of  WebAdvert.Web appsettings.json of 
+We put the Domain name in config file of  WebAdvert.Web appsettings.json.
 
-- Search Management (using #Microservice 4 - Search.API)
+    {
+        "ImageBaseUrl": "http://dxxxxxxxxxo7.cloudfront.net"
+    }
+
+### Search Management (using #Microservice 4 - Search.API)
 
 The Home page has a search box. When we type something Microservice 4 - Search.API is called which in turn gets a list from Elastic Search Container.
 
@@ -217,54 +224,89 @@ This is a AWS Lambda (Serverless Functions). This becomes available only when ne
 
 The SearchWorker creates a new document in **Elastic Search** whenever it gets a message from **SNS**
 
-It is a Class Library .NET Core Project. AWS Nuget Packages **Amazon.Lambda.Core**, **Amazon.Lambda.SNSEvents** and **Amazon.Lambda.Serialization.Json** have been used for Lambda functionality. We can also install **Amazon.Lambda.Tools** to publish everything with .NET Cli. 
+To create Lamda project, I installed AWS Toolkit for Visual Studio and created a Lambda Project (.NET Core).It is like Class Library .NET Core Project. AWS Nuget Packages **Amazon.Lambda.Core**, **Amazon.Lambda.SNSEvents** and **Amazon.Lambda.Serialization.Json** have been used for Lambda functionality. 
 
 Nuget Package **NEST** is installed to work with Elastic Search
 
 
-
-**AWS Console Steps for Elastic Search** - todo (31)
+**AWS Console Steps for Elastic Search** 
 
 - Go to Service -> ElasticSearch
 - Create a new domain (Elastic Search Domain is like container for our Elastic Search Instance)
-- We chose Number of instance as 1 and Instance Type t2.small.elasticsearch
+-  Choose Deployment type as Development and testing and add a Elasticsearch domain name (eg advertapi)
+- We chose Number of instance as 1 and Instance Type t3.small.elasticsearch
 - We chose Number Storage Type EBS, EBS VolumeType Magnetic and size 10
-- We chose Public access and domain template as Allow Open Access to the domain
-- It provides an Elastic Search endpoint and a Kibana endpoint. Copy the Elastic Search endpoint from Overview tab of the Elastic Search Domain created and add it to Search worker's appsettings.json todo (32)
+- We chose Public access under Network configuration
+- Select Fine-grained access control, choose Create master user. Provide a user name and password.
+- For Domain access policy template choose Allow Open Access to the domain
+- It provides an Elastic Search endpoint and a Kibana endpoint. Copy the Elastic Search endpoint from Overview tab of the Elastic Search Domain created and add it to Search worker's appsettings.json 
 
+appsettings.json 
 
-        public SearchWorker(IElasticClient client)
+      {
+        "ES": {
+           "url": "https://search-advertapi-xxxxxxx.us-xxxx-1.es.amazonaws.com"
+         }
+       }
+
+Lambda function
+
+        public async Task FunctionHandler(SNSEvent snsEvent, ILambdaContext context)
         {
-            _client = client;
-        }
-        public async Task Function(SNSEvent snsEvent, ILambdaContext context)
-        {
+            var node = new Uri("https://Username:Password@search-advertapi-xxxxxxx.us-xxxx-1.es.amazonaws.com/");
+
+            var settings = new ConnectionSettings(node)
+                .DefaultIndex("adverts");
+
+            var client = new ElasticClient(settings);
 
             foreach (var record in snsEvent.Records)
             {
                 context.Logger.LogLine(record.Sns.Message);
 
                 var message = JsonConvert.DeserializeObject<AdvertConfirmedMessage>(record.Sns.Message);
-                var advertDocument = MappingHelper.Map(message);
-                await _client.IndexDocumentAsync(advertDocument);
-
+                var advertDocument = new AdvertType
+                                       {
+                                           Id = message.Id,
+                                           Title = message.Title,
+                                           CreationDateTime = DateTime.UtcNow
+                                       };
+                var result = await client.IndexDocumentAsync(advertDocument);
+                context.Logger.LogLine($"Result: {result.DebugInformation}");
             }
         }
 
 
-### Uploading Lambda Function
-
-**Packagaing WebAdvert.SearchWorker to a zip folder** - todo (31)
 
 **AWS Console Steps**
 
-  - We need to create a role for uploading Lambda Function. The role tells Amazon, what services this Lambda can access. Go to **IAM**, create new Role -> Choose Lambda -> Choose policy CloudWatchLogsFullAccess -> we can Add tag - Name: SearchWorkerRole -> Give Rolle name SearchWorkerRole and create role.
+  - We need to create a role for uploading Lambda Function. The role tells Amazon, what services this Lambda can access. Go to **IAM**, create new Role -> Choose Lambda -> Choose policy CloudWatchLogsFullAccess -> we can Add tag - Name: SearchWorkerRole -> Give Role name SearchWorkerRole and create role.
   - Go to Service -> Lambda -> Create Function -> Choose AuthorFromScratch -> Give a name :searchworker, select Runtime (eg: .NET Core 3.1), for Role - selct use existing role (SearchWorkerRole).
   - Go to the created SearchWorker Lambda -> Add Trigger -> Select SNS -> Choose AdvertAPI Topic ARN
-  - Upload lambda code - todo (31)
+  - Upload lambda code :
+
+### Uploading Lambda Function
+
+- Right-Click on Project node and then choosing Publish to AWS Lambda.
+- In the Upload Lambda Function window, enter a name for the function, or select a previously published function to republish.
+- Set Handler as "Assembly::Namespace.Class::Function" 
+- Set other details like IAM Role, Memory etc. and upload
+- Test the Lambda function in AWS Console
 
 ## #Microservice 4 - Search.API - This is the API to search Advertisements
 
+It is a ASP.NET Core Web API project. It searches Elasticsearch service for any item matching the searched keyword. Nuget Package **NEST** is installed to work with Elastic Search.
+Elastic Search endpoint from Overview tab of the Elastic Search Domain created is added to appsettings.json 
+
+appsettings.json: 
+
+      {
+        "ES": {
+           "url": "https://Username:Password@search-advertapi-xxxxxxx.us-xxxx-1.es.amazonaws.com"
+         }
+       }
+
+SearchService:
 
      public SearchService(IElasticClient client)
      {
@@ -301,8 +343,8 @@ To see what's going on in Elastic Serch when the logs are dumped, we use **Kiban
 - Go to Manage Identity Pool -> Create Identity Pool (KibanaUsers) and under Authentication providers add Pool Id and App client Id and create pool
 - Note the Role Name and Allow
 - Under IAM - Roles, we can see 2 roles created - CognitoKibanaUsersAuth and CognitoKibanaUsersUnauth. Copy the Role ARN of CognitoKibanaUsersAuth Role
-- Go to Service -> **ElasticSearchSErvice** -> Create a new Domain (webadvertslogs) todo (35 -4:16)
-- Cloose public access and enable Amazon Cognito for Authentication -> Choose WebAdevert User pool -> Choose KibanaUsers Identity Pool -> Choose domain template as Allow Open Access to the domain
+- Go to Service -> **ElasticSearchService** -> Create a new Domain (webadvertslogs) todo (35 -4:16)
+- Choose public access and enable Amazon Cognito for Authentication -> Choose WebAdevert User pool -> Choose KibanaUsers Identity Pool -> Choose domain template as Allow Open Access to the domain
 - Pick the Role ARN of CognitoKibanaUsersAuth Role and under Add or edit access policy json AWS uder Principal section is '*' by default, replace it with the Role ARN of CognitoKibanaUsersAuth Role. This mens only these users can aceess Kibana
 
 **Sending Data to Kibana**
@@ -474,7 +516,7 @@ Startup.cs
 
 We have to discover the services from our web client (#Microservice 1 - WebAdvert.Web)
 
-AWS Nuget Packages **AWSSDK.ServiceDiscovery** is installed in WebAdvert.Web. We won't use base address from appsettings.json, we will find it using service discovery.
+AWS Nuget Packages **AWSSDK.ServiceDiscovery** is installed in WebAdvert.Web. We won't use the base address from appsettings.json, we will find it using service discovery.
 
     var discoveryClient = new AmazonServiceDiscoveryClient();
     var discoveryTask = discoveryClient.DiscoverInstancesAsync(
@@ -494,7 +536,7 @@ AWS Nuget Packages **AWSSDK.ServiceDiscovery** is installed in WebAdvert.Web. We
 
 Continuous Integration and Delivery is necessary to achieve the agility that Microservices promise.
 
-**Continuous Integration:** Code changes get built, tested and then meerged into the main branch automatically to ensure code is always production ready.
+**Continuous Integration:** Code changes get built, tested and then merged into the main branch automatically to ensure code is always production ready.
 
 **Continuous Delivery:** Code changes that pass CI get automatically deployed to all pre production environments (eg: dev, staging etc)
 
@@ -502,7 +544,7 @@ Continuous Integration and Delivery is necessary to achieve the agility that Mic
 
 Types of deployment
 
-**Rolling Deployment:** New service instance (EC2, Lambda or Docker Containers) are launched. New version runs parallel to the old version. Old instances meeds to be deleted.
+**Rolling Deployment:** New service instance (EC2, Lambda or Docker Containers) are launched. New version runs parallel to the old version. Old instances needs to be deleted.
 
 **Red/Black Deployment:** Once the new version is up. 100% of traffic is redirected from old to new.
 
@@ -514,19 +556,18 @@ Types of deployment
 **Deployment of AWS Lambda:** 
 
 - Use SAM (Serverless Application Model) 
-- Use AWS Cloud Formation to create SNS topic and attaching them to Lambda.
+- Use AWS Cloud Formation to create SNS topic and attach them to Lambda.
 - Use Powershell Core
 - Use AWS CLI - We can run commands to build the objects and deploy code
 
 **Deployment of ASP.NET Core Web API:** 
 
--  Use AWS Cloud Formation. it can launch new EC2 instances for each deployment and implemnet rolling deployments.
--  Use AWS Code Deploy. It is easy to imeplement using AWS CLI or powershell. Code deployment agentmust be installed on each EC2 instance.
--  Use Docker and AWS ECS, we can build using containers and don't neeed yoinstall tolls on servers. Amazon ECS manages containers and their security, scaling etc.
+-  Use AWS Cloud Formation. It can launch new EC2 instances for each deployment and implement rolling deployments.
+-  Use AWS Code Deploy. It is easy to implement using AWS CLI or powershell. Code deployment agent must be installed on each EC2 instance.
+-  Use Docker and AWS ECS, we can build using containers and don't need to install tools on servers. Amazon ECS manages containers and their security, scaling etc.
 
-### Deployment with Docker
-
-Docker is used to package the code artifact, all realted files and operationg system in a Docker Image. A container is an instance of Image. AWS ECS runs and manages containers
+### Deployment with Docker 
+Docker is used to package the code artifact, all related files and operating system in a Docker Image. A container is an instance of Image. AWS ECS runs and manages containers
 
 **Deployment Models**
 
@@ -536,3 +577,75 @@ Docker is used to package the code artifact, all realted files and operationg sy
 **Elastic Container Service (ECS)**
 
 ![image](https://user-images.githubusercontent.com/29271635/122956791-f2fea400-d39e-11eb-916e-e2473261d399.png)
+
+
+
+- **Container ->** A container is an instance of Image. Amazon pulls the image from Repository (Elastic Container Repository - it is like docker hub) and then create instances of it which are containers.
+
+- **Task ->** Task is definition of how a container should be created, managed, how much memory to give to the container etc.
+
+- **Service ->** It is a the microservice (like advert.api or search.api). It can have 1 or more task running inside it. Every service can go to 1 EC2 machine (if we use EC2 model).
+
+-  **Cluster ->** It is the cluster of EC2 machines. It has the VPC information, auto scaling attached to it.
+
+
+### Uploading Search.API to ECS using Docker image
+
+First we need to create a DockerFile. Right click on the project from Visual Studio -> Add -> Add Docket Support. Docker file will be ready.
+Then we have to prepare AWS Console. We bbed a user with permission for ECS
+
+**AWS Console Steps**
+
+- Go to Service -> **IAM** 
+- Create a user (eg: ECSRunner) -> Attach policies **AWSCodeDeployRoleForECS** and **AmazonECSTaskExecutionRolePolicy**
+- Go to Service -> **Amazon Elastic Container Service (ECS)** 
+- Go to Repositories under Amazon ECR
+- Create a repository and provide a name (ex: searchapirepo)
+- Go to Permissions under Amazon ECR - Repositories. > Edit Permissions -> Add Statement -> Choose Allow -> Select IAM Entity created (eg: ECSRunner)
+- Choose the actions :ecr:CompleteLayerUpload, ecr:InitiateLayerUpload, ecr:PutImage, ecr:UploadLayerPart and Save
+- We can get the publish commands by clicking on View Push commands.
+
+
+To use command, we have to install AWS Cli first. We will use the Docker file created to build the image and upload it to the AWS ECS repo created.
+
+- Login :  docker login --username AWS --password-stdin xxxxxxxxxx.dkr.ecr.us-xxxx-1.amazonaws.com
+- Build: docker build -t searchapirepo .
+- Tag: docker tag searchapirepo:latest xxxxxxxxxxx.dkr.ecr.us-xxxx-1.amazonaws.com/searchapirepo:latest
+- Push to repo: docker push xxxxxxxxxxxxxx.dkr.ecr.us-xxxx-1.amazonaws.com/searchapirepo:latest
+
+
+### Creating Task Definition
+
+- Click on Create new Task Definition and choose EC2
+- Provide Task Definition (eg : TaskSeachApi), Task memory (eg: 2GB), Task CPU (eg: 2 vCPU)
+- Click on Add Container -> Give a name (eg:SearchAPIContainer), Copt the earlier created Image URI to the Image (eg: xxxxxxxxxxxx.dkr.ecr.us-xxxx-1.amazonaws.com/searchapirepo)
+- Set memory limit  - Hard as 1024,  For port mapping add 80 -> 5000 and click add container
+- Create and the Task Definition is ready.
+
+
+### Creating Cluster
+
+- Go to Clusters -> Create Cluster -> Choose EC2 Linux + Networking 1
+- Add Cluster name - eg: AdvertCluster, Choose On-Demand Instance, Choose EC2 instance type as m5zn.large, choose Number of instances as 1
+- For Key pair, go to  EC2 console  and generate a new Key pair (give a nax - ECS for ex) and choose that.
+- For Networking, choose existing vPC from the dropdown. ( Note: We can also Create a new VPC it has to habe internet access. For that, we have to add internet gateway to it, and in mapping table, map our internet gateway to all traffic to all IPs)
+- Choose a existing subnet and security group. (Note: for existing security group - We have to go to  security group section, check inbound and outboud rules. For inbound rukes - eg: we have port 80 -> 5000, we have to open port 80)
+- For Container instance IAM role -> choose Create new role
+- Once cluster is ready, we have to create a service
+
+
+### Creating Service
+
+- Go to the created Cluster, under Service Tab - click on Create
+- Choose Launch type as EC2, choose the Task Definition and Cluster that we created earlier, provide a Service name (SearchAPIservice)
+- Choose Service type as Replica and Number of tasks as 1/2 and Deployment type as Rolling
+- We will select Load balancer as none, but we can also create one and attach our service to it
+- For demo project, choose Service Auto Scaling Do not adjust the service’s desired count.
+- Go to Service -> EC2. We can see that 1 instance is running, we can use it's Public IPv4 DNS :5000 to make a call (eg: https://ec2-35-175-205-14.compute-1.amazonaws.com:5000/search/v1/abc)
+
+
+## Event Driven Microservice
+
+- **Events** : Notification (message) sent from 1 Microservice to another Microservice to inform something has happened.
+- **Command** : A message (command) that is sent from 1 microservice to another Microservice to instruct to do something.
+
