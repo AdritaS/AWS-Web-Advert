@@ -17,11 +17,12 @@ namespace WebAdvert.SearchApi.Services
 
         public async Task<List<AdvertType>> Search(string keyword)
         {
+            Console.WriteLine(DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss") + ", keyword: " + keyword);
             var searchResponse = await _client.SearchAsync<AdvertType>(search => search.
                 Query(query => query.
                     Term(field => field.Title, keyword.ToLower())
                 ));
-
+             Console.WriteLine("DebugInformation: " + searchResponse.DebugInformation);
             return searchResponse.Hits.Select(hit => hit.Source).ToList();
         }
     }
