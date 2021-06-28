@@ -28,7 +28,11 @@ Advert API is placed in private subnet. It is not neded to be accessed from inte
 - Every Microservice should have it's own database. But creating different instance of database like SQL Server is costly, therefore we use Amazon RDS (Relation Database Service). For NoSql Database, we can use DynamoDB.
 - Client (browser or mobile app) connect to Amazon CloudFront(Caching service). Cloudfront sends data to API Gateway (Aggragates all API into one address)
 
+### Domain Driven Design
 
+Domain is the area of business where the application is intended to apply. Eg, Order, Payment and Inventory are different domins. In our application #Microservice 2 - Advert.API is Advert Management Domain and #Microservice 4 - Search.API & #Microservice 3 - WebAdvert.SearchWorker are part of Search Domain.
+
+Domain Driven Design is a Software Design Method where we focus on the domain and domain logic. We are focussed on the business over technology and conatantly consult with DOmain expert to improve domain understanding.
 
 ### CQRS
 
