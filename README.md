@@ -53,7 +53,7 @@ Command Query Responsibility Segregation is an architectural pattern that separa
 
 **Windows System Steps**
 
-- Create profile in our Windows System. Fo to Users root directory (type %USERPROFILE%). Create folder .aws.. Add file credentials
+- Create profile in our Windows System. Go to Users root directory (type %USERPROFILE%). Create folder .aws.. Add file credentials
 
 ```
 [default]
