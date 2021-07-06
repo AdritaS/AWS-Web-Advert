@@ -4,6 +4,16 @@ Getting started with AWS. This project has been created as a practice along with
 ![image](https://user-images.githubusercontent.com/29271635/122780086-202e5200-d2cc-11eb-8ba8-bd8063bdfe53.png)
 
 
+### Description
+
+The Application is built for posting Advertisements and searching them. 
+
+- User Management is handled through **AWS Cognito** 
+- User can post Advertisement details with an image. The entry is added in **DynamoDB** and the image is uploaded to  **S3 Bucket**
+- When an entry is added in database, the API sends a message (Id and Title) to **SNS**
+- SearchWorker microservice subscribes to **SNS** and creates a new document in **Elastic Search**
+- When we search something, Search.API is called which gets a list from Elastic Search Container.
+
 ### Project Infastructure
 
 The VPC (Private infastructure) is divided into 2 subnets.
@@ -156,7 +166,7 @@ We put the Domain name in config file of  WebAdvert.Web appsettings.json.
 
 ### Search Management (using #Microservice 4 - Search.API)
 
-The Home page has a search box. When we type something Microservice 4 - Search.API is called which in turn gets a list from Elastic Search Container.
+The Home page has a search box. When we type something, Microservice 4 - Search.API is called which in turn gets a list from Elastic Search Container.
 
 
 ## #Microservice 2 - Advert.API - This is the API to add Advertisements
