@@ -357,7 +357,7 @@ To see what's going on in Elastic Serch when the logs are dumped, we use **Kiban
 - Go to Manage Identity Pool -> Create Identity Pool (KibanaUsers) and under Authentication providers add Pool Id and App client Id and create pool
 - Note the Role Name and Allow
 - Under IAM - Roles, we can see 2 roles created - CognitoKibanaUsersAuth and CognitoKibanaUsersUnauth. Copy the Role ARN of CognitoKibanaUsersAuth Role
-- Go to Service -> **ElasticSearchService** -> Create a new Domain (webadvertslogs) todo (35 -4:16)
+- Go to Service -> **ElasticSearchService** -> Create a new Domain (webadvertslogs) 
 - Choose public access and enable Amazon Cognito for Authentication -> Choose WebAdevert User pool -> Choose KibanaUsers Identity Pool -> Choose domain template as Allow Open Access to the domain
 - Pick the Role ARN of CognitoKibanaUsersAuth Role and under Add or edit access policy json AWS uder Principal section is '*' by default, replace it with the Role ARN of CognitoKibanaUsersAuth Role. This mens only these users can aceess Kibana
 
@@ -366,7 +366,7 @@ To see what's going on in Elastic Serch when the logs are dumped, we use **Kiban
 All the logs we create in CloudWatch goes to Log Group
 
 - Go to Service -> **CloudWatch** -> Logs -> Create Log Group (advertapi)
-- Select the created log group and under Actions choose Stream To AmazonElasticSearch Service (todo 35- 8:00)
+- Select the created log group and under Actions choose Stream To AmazonElasticSearch Service 
 - Choose Amazon ES Cluster as the webadvertslogs (elastic search domain that we created for logs), select all default options and Start streaming
 
 
@@ -420,15 +420,13 @@ It can expose AWS Lambda functions as APIs, supports authentication, web firewal
 
 **AWS Console Steps**
 
-- Go to EC2 instance of the AdvertAPI microservice we deployed and copy the public DNS (todo 42 , 0:23)
+- Go to EC2 instance of the AdvertAPI microservice we deployed and copy the public DNS
 - Go to Service -> **API Gateway** 
 - Create API -> Give a name (eg : Public Web API Proxy) and choose endpoint type Regional/Edge optimized -> Create API
 - The created API is empty now, Go To Actions -> Create Resource -> Add name (eg: proxy) and check Enable API Gateway CORS
 - Click on Create Resource and choose Integration Type as HTTP Proxy and add the Endpoint as http:// Copied Nomain Name from EC2 instance / {proxy} and Save
 - API is created, Go to ACtions menu and click on Deploy API (It can be deployed as staging/ production etc by adding the stage name and clicking on Deploy
 - Once we deploy, we can see the Invoke URL, we can use this URL as the endpoint to get the advertisements
-
-todo 43 44 45
 
 ## Securing public API with JWT
 
@@ -437,8 +435,6 @@ Whan we deploy a microservice in Public subnet (i.e a client can directly access
 **Workflow**
 
 Client logins to AWS cognito, Cognito sends Token to the  Client. Client makes a call to the microservice with the token, microservice validates the token using Cognito send sends the result back to the client.
-
-todo - 46(3:00) 47
 
 
 
@@ -487,7 +483,7 @@ In a microservices application, the set of running service instances changes dyn
 - Click on the namespace created and click on Create a service. Each service refers to a microservice.
 - Add service name (eg: advertapi), choose Route 53 health check, add any number for failure threshold (eg: 3) and add /heath as Health check Path and click on create service
 
-We can register our service instance (eg ec2 instance where advertapi is deployed) when via AWS Command line tool (todo 52 middle) as well as .Net core
+We can register our service instance (eg ec2 instance where advertapi is deployed) when via AWS Command line tool as well as .Net core
 
 **Using .NET Core to register an instance of microservice**
 
